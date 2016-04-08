@@ -19,7 +19,7 @@ This module can be used for Node.js as well as browsers using [Browserify](https
 const chatCodes = require('gw2e-chat-codes')
 
 // Encode a type and id as a chat code
-// Valid types are item, text, map, skill, trait, recipe, skin & outfit
+// Valid types are item, map, skill, trait, recipe, skin & outfit
 let encodedCode = chatCodes.encode('item', 46762)
 // -> '[&AgGqtgAA]'
 
