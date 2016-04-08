@@ -20,12 +20,12 @@ const chatCodes = require('gw2e-chat-codes')
 
 // Encode a type and id as a chat code
 // Valid types are item, text, map, skill, trait, recipe, skin & outfit
-let encodedCode = chatCodes.encode('item', 123)
-// -> []
+let encodedCode = chatCodes.encode('item', 46762)
+// -> '[&AgGqtgAA]'
 
 // Decode a chat code into type and id
-let decodedCode = chatCodes.decode('[]')
-// -> {type: 'skin', id: 15}
+let decodedCode = chatCodes.decode('[&BtIWAAA=]')
+// -> {type: 'skin', id: 5842}
 ```
 
 ## Tests
@@ -39,4 +39,4 @@ npm test
 MIT
 
 Big thanks to [codemasher](https://github.com/codemasher) & [poke](https://github.com/poke),
-who wrote the [this algorithm in PHP](https://gist.github.com/codemasher/47dea40f70f990480c5b).
+who wrote [this algorithm in PHP](https://gist.github.com/codemasher/47dea40f70f990480c5b).

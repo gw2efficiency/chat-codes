@@ -2,7 +2,6 @@ const base64 = require('base64-js')
 
 const codeTypes = {
   item: 0x02,
-  text: 0x03,
   map: 0x04,
   skill: 0x06,
   trait: 0x07,
@@ -14,6 +13,12 @@ const codeTypes = {
 function encode (type, id) {
   // Grab the right type id
   type = codeTypeByName(type)
+  id = parseInt(id, 10)
+
+  // Make sure the type and id are valid
+  if (!type || isNaN(id) || id < 0) {
+    return false
+  }
 
   // Encode the ID as a 4-byte little endian integer, then a null byte as terminator
   let data = []
@@ -59,11 +64,11 @@ function decode (chatcode) {
     return false
   }
 
-  // Set the offset, which is the header for most types
+  // Set the byte offset, which is the header for most types
   // and the header + quantity for item types
   let offset = type === 'item' ? 2 : 1
 
-  // Get the id out of the non-header bits
+  // Get the id out of the non-header bytes
   let id = data[offset] | data[offset + 1] << 8 | data[offset + 2] << 16
 
   // Return the decoded chat code
