@@ -14,6 +14,9 @@
     "type": "git",
     "url": "https://github.com/gw2efficiency/chat-codes"
   },
+  "dependencies": {
+    "base64-js": "^1.1.2"
+  },
   "devDependencies": {
     "babel-eslint": "^4.1.6",
     "chai": "^3.4.1",
