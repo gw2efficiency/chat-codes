@@ -4,9 +4,9 @@
   "description": "Encode and decode guildwars2 chat codes",
   "main": "./build/index.js",
   "scripts": {
-    "prepublish": "npm run build",
-    "build": "./node_modules/.bin/babel src/ -d build/",
-    "test": "./node_modules/babel-cli/bin/babel-node.js ./node_modules/.bin/isparta cover --include-all-sources ./node_modules/.bin/_mocha -- tests/ --recursive && node node_modules/snazzy/bin/cmd.js"
+    "prepublish": "abc build",
+    "build": "abc build",
+    "test": "abc test && abc lint"
   },
   "author": "queicherius@gmail.com",
   "license": "MIT",
@@ -18,19 +18,6 @@
     "base64-js": "^1.1.2"
   },
   "devDependencies": {
-    "babel-eslint": "^4.1.6",
-    "chai": "^3.4.1",
-    "codecov": "^1.0.1",
-    "isparta": "^4.0.0",
-    "mocha": "^2.3.4",
-    "sinon": "^1.17.3",
-    "snazzy": "^2.0.1",
-    "babel-cli": "^6.4.5",
-    "babel-preset-es2015": "^6.3.13",
-    "babel-preset-stage-0": "^6.3.13",
-    "babel-preset-stage-3": "^6.3.13"
-  },
-  "standard": {
-    "parser": "babel-eslint"
+    "abc-environment": "^1.0.8"
   }
 }
