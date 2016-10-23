@@ -18,15 +18,15 @@ This module can be used for Node.js as well as browsers using [Browserify](https
 ## Usage
 
 ```js
-const chatCodes = require('gw2e-chat-codes')
+import {encode, decode} from 'gw2e-chat-codes'
 
 // Encode a type and id as a chat code
 // Valid types are item, map, skill, trait, recipe, skin & outfit
-let encodedCode = chatCodes.encode('item', 46762)
+let encodedCode = encode('item', 46762)
 // -> '[&AgGqtgAA]'
 
 // Decode a chat code into type and id
-let decodedCode = chatCodes.decode('[&BtIWAAA=]')
+let decodedCode = decode('[&BtIWAAA=]')
 // -> {type: 'skin', id: 5842}
 ```
 
