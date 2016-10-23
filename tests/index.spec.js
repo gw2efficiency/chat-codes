@@ -1,6 +1,6 @@
 /* eslint-env node, mocha */
-const expect = require('chai').expect
-const codes = require('../src/index.js')
+import {expect} from 'chai'
+import codes from '../src/index.js'
 
 const testCases = [
   {type: 'item', id: 46762, code: '[&AgGqtgAA]'},

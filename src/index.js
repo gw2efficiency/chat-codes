@@ -1,5 +1,4 @@
-const base64 = require('base64-js')
-
+import base64 from 'base64-js'
 const codeTypes = {
   item: 0x02,
   map: 0x04,
@@ -10,7 +9,9 @@ const codeTypes = {
   outfit: 0x0B
 }
 
-function encode (type, id) {
+export default {encode, decode}
+
+export function encode (type, id) {
   // Grab the right type id
   type = codeTypeByName(type)
   id = parseInt(id, 10)
@@ -46,7 +47,7 @@ function encode (type, id) {
   return '[&' + base + ']'
 }
 
-function decode (chatcode) {
+export function decode (chatcode) {
   // Check if the chat code matches the basic structure
   if (!chatcode.match(/\[&([a-z\d+\/]+=*)\]/i)) {
     return false
@@ -88,5 +89,3 @@ function codeTypeById (id) {
 
   return undefined
 }
-
-module.exports = {encode, decode}
