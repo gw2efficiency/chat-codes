@@ -49,7 +49,7 @@ export function encode (type, id) {
 
 export function decode (chatcode) {
   // Check if the chat code matches the basic structure
-  if (!chatcode.match(/\[&([a-z\d+\/]+=*)\]/i)) {
+  if (!chatcode.match(/\[&([a-z\d+/]+=*)]/i)) {
     return false
   }
 
