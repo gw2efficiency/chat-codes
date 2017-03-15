@@ -18,6 +18,6 @@
     "base64-js": "^1.1.2"
   },
   "devDependencies": {
-    "abc-environment": "^1.0.8"
+    "abc-environment": "^2.0.0"
   }
 }
