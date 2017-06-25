@@ -18,15 +18,13 @@ const itemFlags = {
 export default {encode, decode}
 
 export function encode (type, info) {
-  // Get the type
-  type = codeTypeByName(type)
-
   // Normalize the info object if only the id was passed
   if (!info || !info.id) {
     info = {id: info}
   }
 
   // Grab the right type id
+  type = codeTypeByName(type)
   const id = parseInt(info.id, 10)
 
   // Make sure the type and id are valid
@@ -161,9 +159,6 @@ export function decode (chatcode) {
     // Upgrade slot 2
     if ((flags & itemFlags.upgrade2) === itemFlags.upgrade2) {
       decoded.upgrades[1] = data[offset++] | data[offset++] << 8 | data[offset++] << 16
-
-      // skip next byte (always 0x00)
-      offset++
     }
   }
 

@@ -38,16 +38,18 @@ describe('encoding', () => {
   })
 
   it('encodes item stacks from the API correctly', () => {
-    expect(codes.encode('item', {
-      'id': 46762,
-      'slot': 'WeaponA1',
-      'upgrades': [
+    const item = {
+      id: 46762,
+      slot: 'WeaponA1',
+      upgrades: [
         24554,
         24615
       ],
-      'skin': 5807,
-      'binding': 'Account'
-    })).to.equal('[&AgGqtgDgrxYAAOpfAAAnYAAA]')
+      skin: 5807,
+      binding: 'Account'
+    }
+
+    expect(codes.encode('item', item)).to.equal('[&AgGqtgDgrxYAAOpfAAAnYAAA]')
   })
 
   it('fails gracefully for a invalid type', () => {
