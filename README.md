@@ -22,8 +22,12 @@ import {encode, decode} from 'gw2e-chat-codes'
 
 // Encode a type and id as a chat code
 // Valid types are item, map, skill, trait, recipe, skin & outfit
-let encodedCode = encode('item', 46762)
-// -> '[&AgGqtgAA]'
+let encodedSkill = encode('skill', 5842)
+// -> '[&BtIWAAA=]'
+
+// You can pass an object as second parameter to also encode quantity, skin or upgrades
+let encodedItem = encode('item', {id: 46762, quantity: 10, skin: 5807, upgrades: [24554, 24615]})
+// -> '[&AgGqtgDgrxYAAOpfAAAnYAAA]'
 
 // Decode a chat code into type and id
 let decodedCode = decode('[&BtIWAAA=]')
