@@ -51,8 +51,8 @@ export function encode (type, info) {
 
     // Get the skin and upgrades as integer
     const skin = parseInt(info.skin, 10)
-    const upgrade1 = parseInt(info.upgrade1, 10)
-    const upgrade2 = parseInt(info.upgrade2, 10)
+    const upgrade1 = info.upgrades && parseInt(info.upgrades[0], 10)
+    const upgrade2 = info.upgrades && parseInt(info.upgrades[1], 10)
 
     // Check which flags should be set
     const hasSkin = !isNaN(skin)
@@ -152,7 +152,7 @@ export function decode (chatcode) {
 
     // Upgrade slot 1
     if ((flags & itemFlags.upgrade1) === itemFlags.upgrade1) {
-      decoded.upgrade1 = data[offset++] | data[offset++] << 8 | data[offset++] << 16
+      decoded.upgrades = [data[offset++] | data[offset++] << 8 | data[offset++] << 16]
 
       // skip next byte (always 0x00)
       offset++
@@ -160,7 +160,7 @@ export function decode (chatcode) {
 
     // Upgrade slot 2
     if ((flags & itemFlags.upgrade2) === itemFlags.upgrade2) {
-      decoded.upgrade2 = data[offset++] | data[offset++] << 8 | data[offset++] << 16
+      decoded.upgrades[1] = data[offset++] | data[offset++] << 8 | data[offset++] << 16
 
       // skip next byte (always 0x00)
       offset++

@@ -14,12 +14,12 @@ const testCases = [
 const itemTestCases = [
   {type: 'item', info: {id: 46762}, code: '[&AgGqtgAA]'},
   {type: 'item', info: {id: 46762, quantity: 42}, code: '[&AiqqtgAA]'},
-  {type: 'item', info: {id: 46762, upgrade1: 24575}, code: '[&AgGqtgBA/18AAA==]'},
-  {type: 'item', info: {id: 46762, upgrade1: 24575, upgrade2: 24615}, code: '[&AgGqtgBg/18AACdgAAA=]'},
+  {type: 'item', info: {id: 46762, upgrades: [24575]}, code: '[&AgGqtgBA/18AAA==]'},
+  {type: 'item', info: {id: 46762, upgrades: [24575, 24615]}, code: '[&AgGqtgBg/18AACdgAAA=]'},
   {type: 'item', info: {id: 46762, skin: 3709}, code: '[&AgGqtgCAfQ4AAA==]'},
-  {type: 'item', info: {id: 46762, skin: 3709, upgrade1: 24575}, code: '[&AgGqtgDAfQ4AAP9fAAA=]'},
-  {type: 'item', info: {id: 46762, skin: 3709, upgrade1: 24575, upgrade2: 24615}, code: '[&AgGqtgDgfQ4AAP9fAAAnYAAA]'},
-  {type: 'item', info: {id: 46762, quantity: 42, skin: 3709, upgrade1: 24575, upgrade2: 24615}, code: '[&AiqqtgDgfQ4AAP9fAAAnYAAA]'}
+  {type: 'item', info: {id: 46762, skin: 3709, upgrades: [24575]}, code: '[&AgGqtgDAfQ4AAP9fAAA=]'},
+  {type: 'item', info: {id: 46762, skin: 3709, upgrades: [24575, 24615]}, code: '[&AgGqtgDgfQ4AAP9fAAAnYAAA]'},
+  {type: 'item', info: {id: 46762, quantity: 42, skin: 3709, upgrades: [24575, 24615]}, code: '[&AiqqtgDgfQ4AAP9fAAAnYAAA]'}
 ]
 
 describe('encoding', () => {
@@ -35,6 +35,19 @@ describe('encoding', () => {
     itemTestCases.map(test => {
       expect(codes.encode(test.type, test.info)).to.equal(test.code)
     })
+  })
+
+  it('encodes item stacks from the API correctly', () => {
+    expect(codes.encode('item', {
+      'id': 46762,
+      'slot': 'WeaponA1',
+      'upgrades': [
+        24554,
+        24615
+      ],
+      'skin': 5807,
+      'binding': 'Account'
+    })).to.equal('[&AgGqtgDgrxYAAOpfAAAnYAAA]')
   })
 
   it('fails gracefully for a invalid type', () => {
