@@ -8,7 +8,8 @@ const testCases = [
   {type: 'trait', id: 1010, code: '[&B/IDAAA=]'},
   {type: 'recipe', id: 8, code: '[&CQgAAAA=]'},
   {type: 'skin', id: 2286, code: '[&Cu4IAAA=]'},
-  {type: 'outfit', id: 28, code: '[&CxwAAAA=]'}
+  {type: 'outfit', id: 28, code: '[&CxwAAAA=]'},
+  {type: 'objective', id: '38-11', code: '[&DAsAAAAmAAAA]'}
 ]
 
 const itemTestCases = [
@@ -62,6 +63,7 @@ describe('encoding', () => {
     expect(codes.encode('item', {})).to.equal(false)
     expect(codes.encode('item', {id: '#notanid'})).to.equal(false)
     expect(codes.encode('item', {id: -5})).to.equal(false)
+    expect(codes.encode('objective', 5)).to.equal(false)
   })
 })
 
