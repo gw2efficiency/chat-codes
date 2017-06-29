@@ -21,7 +21,7 @@ This module can be used for Node.js as well as browsers using [Browserify](https
 import {encode, decode} from 'gw2e-chat-codes'
 
 // Encode a type and id as a chat code
-// Valid types are item, map, skill, trait, recipe, skin & outfit
+// Valid types are item, map, skill, trait, recipe, skin, outfit & objective
 let encodedSkill = encode('skill', 5842)
 // -> '[&BtIWAAA=]'
 

@@ -6,7 +6,8 @@ const codeTypes = {
   trait: 0x07,
   recipe: 0x09,
   skin: 0x0A,
-  outfit: 0x0B
+  outfit: 0x0B,
+  objective: 0x0C
 }
 
 const itemFlags = {
@@ -25,6 +26,18 @@ export function encode (type, info) {
 
   // Grab the right type id
   type = codeTypeByName(type)
+
+  if (type === codeTypes.objective) {
+    const objectiveIdMatch = ('' + info.id).match(/^(\d+)-(\d+)$/)
+
+    if (!objectiveIdMatch) {
+      return false
+    }
+
+    info.id = objectiveIdMatch[2]
+    info.map = parseInt(objectiveIdMatch[1], 10)
+  }
+
   const id = parseInt(info.id, 10)
 
   // Make sure the type and id are valid
@@ -90,6 +103,10 @@ export function encode (type, info) {
       write3Bytes(data, upgrade2)
       data.push(0x00)
     }
+  } else if (type === codeTypes.objective) {
+    data.push(0x00)
+    write3Bytes(data, info.map)
+    data.push(0x00)
   } else {
     // Add null byte as terminator
     data.push(0x00)
@@ -160,6 +177,10 @@ export function decode (chatcode) {
     if ((flags & itemFlags.upgrade2) === itemFlags.upgrade2) {
       decoded.upgrades[1] = data[offset++] | data[offset++] << 8 | data[offset++] << 16
     }
+  } else if (type === codeTypes.objective) {
+    offset++
+
+    decoded.id = (data[offset++] | data[offset++] << 8 | data[offset++] << 16) + '-' + decoded.id
   }
 
   // Return the decoded chat code
