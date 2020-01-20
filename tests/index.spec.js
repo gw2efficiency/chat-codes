@@ -23,6 +23,11 @@ const itemTestCases = [
   {type: 'item', info: {id: 46762, quantity: 42, skin: 3709, upgrades: [24575, 24615]}, code: '[&AiqqtgDgfQ4AAP9fAAAnYAAA]'}
 ]
 
+const buildTestCases = [
+  {type: 'build', info: {aquaticEliteSkill: 407, aquaticHealSkill: 3877, aquaticPet1: 0, aquaticPet2: 0, aquaticUtilitySkill1: 189, aquaticUtilitySkill2: 188, aquaticUtilitySkill3: 406, profession: 4, specializationId1: 33, specializationId2: 30, specializationId3: 55, terrestrialEliteSkill: 5678, terrestrialHealSkill: 5934, terrestrialPet1: 15619, terrestrialPet2: 4885, terrestrialUtilitySkill1: 190, terrestrialUtilitySkill2: 186, terrestrialUtilitySkill3: 5865, traitChoices1: [3, 1, 3], traitChoices2: [3, 1, 1], traitChoices3: [2, 3, 2]}, code: '[&DQQhNx4XNy4uFyUPvgC9ALoAvADpFpYBLhaXAQM9FRMAAAAAAAAAAAAAAAA=]'}
+//                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        [&DQQhNx4XNy4uFyUPvgC9ALoAvADpFpYBLhaXAQM9FRMAAAAAAAAAAAAAAAA=]
+]
+
 describe('encoding', () => {
   testCases.map(test => {
     it('encodes ' + test.type + ' chat codes correctly', () => {
@@ -53,6 +58,12 @@ describe('encoding', () => {
     expect(codes.encode('item', item)).to.equal('[&AgGqtgDgrxYAAOpfAAAnYAAA]')
   })
 
+  it('encodes build chat codes correctly', () => {
+    buildTestCases.map(test => {
+      expect(codes.encode(test.type, test.info)).to.equal(test.code)
+    })
+  })
+
   it('fails gracefully for a invalid type', () => {
     expect(codes.encode('nonexisting', 123)).to.equal(false)
   })
@@ -77,6 +88,12 @@ describe('decoding', () => {
   it('decodes item chat codes correctly', () => {
     itemTestCases.map(test => {
       expect(codes.decode(test.code)).to.deep.equal({type: test.type, quantity: 1, ...test.info})
+    })
+  })
+
+  it('decodes build chat codes correctly', () => {
+    buildTestCases.map(test => {
+      expect(codes.decode(test.code)).to.deep.equal({type: test.type, ...test.info})
     })
   })
 

@@ -7,7 +7,8 @@ const codeTypes = {
   recipe: 0x09,
   skin: 0x0A,
   outfit: 0x0B,
-  objective: 0x0C
+  objective: 0x0C,
+  build: 0x0D
 }
 
 const itemFlags = {
@@ -20,7 +21,7 @@ export default {encode, decode}
 
 export function encode (type, info) {
   // Normalize the info object if only the id was passed
-  if (!info || !info.id) {
+  if ((!info || !info.id) && type !== codeTypes.build) {
     info = {id: info}
   }
 
@@ -41,7 +42,7 @@ export function encode (type, info) {
   const id = parseInt(info.id, 10)
 
   // Make sure the type and id are valid
-  if (!type || isNaN(id) || id < 0) {
+  if (!type || (isNaN(id) || id < 0) && type !== codeTypes.build) {
     return false
   }
 
@@ -54,7 +55,9 @@ export function encode (type, info) {
   }
 
   // Encode the ID as a 3-byte little endian integer
-  write3Bytes(data, id)
+  if (type !== codeTypes.build) {
+    write3Bytes(data, id)
+  }
 
   // Encode item details
   if (type === codeTypes.item) {
@@ -107,6 +110,37 @@ export function encode (type, info) {
     data.push(0x00)
     write3Bytes(data, info.map)
     data.push(0x00)
+  } else if (type === codeTypes.build) {
+    data.push(info.profession)
+    data.push(info.specializationId1)
+    writeTraitSelection(data, info.traitChoices1)
+    data.push(info.specializationId2)
+    writeTraitSelection(data, info.traitChoices2)
+    data.push(info.specializationId3)
+    writeTraitSelection(data, info.traitChoices3)
+    write2Bytes(info.terrestrialHealSkill)
+    write2Bytes(info.aquaticHealSkill)
+    write2Bytes(info.terrestrialUtilitySkill1)
+    write2Bytes(info.aquaticUtilitySkill1)
+    write2Bytes(info.terrestrialUtilitySkill2)
+    write2Bytes(info.aquaticUtilitySkill2)
+    write2Bytes(info.terrestrialUtilitySkill3)
+    write2Bytes(info.aquaticUtilitySkill3)
+    write2Bytes(info.terrestrialEliteSkill)
+    write2Bytes(info.aquaticEliteSkill)
+    if (info.profession === 0x04) {
+      // Ranger
+      write2Bytes(info.terrestrialPet1)
+      write2Bytes(info.terrestrialPet2)
+      write2Bytes(info.aquaticPet1)
+      write2Bytes(info.aquaticPet2)
+    } else if (info.profession === 0x09) {
+      // Revenant
+      write2Bytes(info.terrestrialLegend1)
+      write2Bytes(info.terrestrialLegend2)
+      write2Bytes(info.aquaticLegend1)
+      write2Bytes(info.aquaticLegend2)
+    }
   } else {
     // Add null byte as terminator
     data.push(0x00)
@@ -151,7 +185,9 @@ export function decode (chatcode) {
   }
 
   // Get the id out of the non-header bytes
-  decoded.id = data[offset++] | data[offset++] << 8 | data[offset++] << 16
+  if (type !== codeTypes.build) {
+    decoded.id = data[offset++] | data[offset++] << 8 | data[offset++] << 16
+  }
 
   // Read more item details
   if (type === codeTypes.item) {
@@ -181,16 +217,57 @@ export function decode (chatcode) {
     offset++
 
     decoded.id = (data[offset++] | data[offset++] << 8 | data[offset++] << 16) + '-' + decoded.id
+  } else if (type === codeTypes.build) {
+    decoded.profession = data[offset++]
+    decoded.specializationId1 = data[offset++]
+    decoded.traitChoices1 = [ data[offset] & 3, (data[offset] >> 2) & 3, (data[offset++] >> 4 & 3) ]
+    decoded.specializationId2 = data[offset++]
+    decoded.traitChoices2 = [ data[offset] & 3, (data[offset] >> 2) & 3, (data[offset++] >> 4 & 3) ]
+    decoded.specializationId3 = data[offset++]
+    decoded.traitChoices3 = [ data[offset] & 3, (data[offset] >> 2) & 3, (data[offset++] >> 4 & 3) ]
+    decoded.terrestrialHealSkill = data[offset++] | data[offset++] << 8
+    decoded.aquaticHealSkill = data[offset++] | data[offset++] << 8
+    decoded.terrestrialUtilitySkill1 = data[offset++] | data[offset++] << 8
+    decoded.aquaticUtilitySkill1 = data[offset++] | data[offset++] << 8
+    decoded.terrestrialUtilitySkill2 = data[offset++] | data[offset++] << 8
+    decoded.aquaticUtilitySkill2 = data[offset++] | data[offset++] << 8
+    decoded.terrestrialUtilitySkill3 = data[offset++] | data[offset++] << 8
+    decoded.aquaticUtilitySkill3 = data[offset++] | data[offset++] << 8
+    decoded.terrestrialEliteSkill = data[offset++] | data[offset++] << 8
+    decoded.aquaticEliteSkill = data[offset++] | data[offset++] << 8
+    if (decoded.profession === 0x04) {
+      // Ranger
+      decoded.terrestrialPet1 = data[offset++] | data[offset++] << 8
+      decoded.terrestrialPet2 = data[offset++] | data[offset++] << 8
+      decoded.aquaticPet1 = data[offset++] | data[offset++] << 8
+      decoded.aquaticPet2 = data[offset++] | data[offset++] << 8
+    } else if (decoded.profession === 0x09) {
+      // Revenant
+      decoded.terrestrialLegend1 = data[offset++] | data[offset++] << 8
+      decoded.terrestrialLegend2 = data[offset++] | data[offset++] << 8
+      decoded.aquaticLegend1 = data[offset++] | data[offset++] << 8
+      decoded.aquaticLegend2 = data[offset++] | data[offset++] << 8
+    }
   }
 
   // Return the decoded chat code
   return decoded
 }
 
+function write2Bytes (data, value) {
+  data.push((value >> 0x00) & 0xFF)
+  data.push((value >> 0x08) & 0xFF)
+}
+
 function write3Bytes (data, value) {
   data.push((value >> 0x00) & 0xFF)
   data.push((value >> 0x08) & 0xFF)
   data.push((value >> 0x10) & 0xFF)
+}
+
+function writeTraitSelection (data, [trait1, trait2, trait3]) {
+  const value = ((trait3 & 3) << 4) | ((trait2 & 3) << 2) | ((trait1 & 3) << 0)
+  data.push(value)
 }
 
 function codeTypeByName (name) {
