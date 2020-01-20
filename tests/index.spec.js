@@ -24,8 +24,94 @@ const itemTestCases = [
 ]
 
 const buildTestCases = [
-  {type: 'build', info: {aquaticEliteSkill: 407, aquaticHealSkill: 3877, aquaticPet1: 0, aquaticPet2: 0, aquaticUtilitySkill1: 189, aquaticUtilitySkill2: 188, aquaticUtilitySkill3: 406, profession: 4, specializationId1: 33, specializationId2: 30, specializationId3: 55, terrestrialEliteSkill: 5678, terrestrialHealSkill: 5934, terrestrialPet1: 15619, terrestrialPet2: 4885, terrestrialUtilitySkill1: 190, terrestrialUtilitySkill2: 186, terrestrialUtilitySkill3: 5865, traitChoices1: [3, 1, 3], traitChoices2: [3, 1, 1], traitChoices3: [2, 3, 2]}, code: '[&DQQhNx4XNy4uFyUPvgC9ALoAvADpFpYBLhaXAQM9FRMAAAAAAAAAAAAAAAA=]'}
-//                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        [&DQQhNx4XNy4uFyUPvgC9ALoAvADpFpYBLhaXAQM9FRMAAAAAAAAAAAAAAAA=]
+  {
+    type: 'build',
+    code: '[&DQQhNx4XNy4uFyUPvgC9ALoAvADpFpYBLhaXAQEECxMAAAAAAAAAAAAAAAA=]',
+    info: {
+      profession: 4, // Ranger
+
+      specializationId1: 33, // Wilderness Survival
+      traitChoices1: [3, 1, 3],
+      specializationId2: 30, // Skirmishing
+      traitChoices2: [3, 1, 1],
+      specializationId3: 55, // Soulbeast
+      traitChoices3: [2, 3, 2],
+
+      terrestrialHealSkill: 5934, // Bear Stance
+      terrestrialUtilitySkill1: 190, // Flame Trap
+      terrestrialUtilitySkill2: 186, // Viper's Nest
+      terrestrialUtilitySkill3: 5865, // Vulture Stance
+      terrestrialEliteSkill: 5678, // One Wolf pack
+
+      aquaticHealSkill: 3877, // Aqua Surge
+      aquaticUtilitySkill1: 189, // Solar Flare
+      aquaticUtilitySkill2: 188, // Cold Snap
+      aquaticUtilitySkill3: 406, // Quickening Zephyr
+      aquaticEliteSkill: 407, // Nature's Renewal
+
+      terrestrialPet1: 1, // Juvenile Jungle Stalker
+      terrestrialPet2: 4, // Juvenile Krytan Drakehound
+      aquaticPet1: 11, // Juvenile Jaguar
+      aquaticPet2: 19, // Juvenile River Drake
+    }
+  },
+  {
+    type: 'build',
+    code: '[&DQYfLSkaOCcXAXQANRfLAL4BjwBOARwBlwCWAAAAAAAAAAAAAAAAAAAAAAA=]',
+    info: {
+      profession: 6, // Elementalist
+
+      specializationId1: 31, // Fire
+      traitChoices1: [1, 3, 2],
+      specializationId2: 41, // Air
+      traitChoices2: [2, 2, 1],
+      specializationId3: 56, // Weaver
+      traitChoices3: [3, 1, 2],
+
+      terrestrialHealSkill: 279, // Glyph of Elemental Harmony
+      terrestrialUtilitySkill1: 5941, // Primordial Stance
+      terrestrialUtilitySkill2: 446, // Glyph of Storms
+      terrestrialUtilitySkill3: 334, // Arcane Wave
+      terrestrialEliteSkill: 151, // Conjure Fiery Greatsword
+
+      aquaticHealSkill: 116, // Signet of Restoration
+      aquaticUtilitySkill1: 203, // Signet of Fire
+      aquaticUtilitySkill2: 143, // Signet of Water
+      aquaticUtilitySkill3: 284, // Signet of Air
+      aquaticEliteSkill: 150, // Tornado
+    }
+  },
+  {
+    type: 'build',
+    code: '[&DQkPFQMqND/cEdwRKxIrEgYSBhLUEdQRyhHKEQ4NDxAAAAAAAAAAAAAAAAA=]',
+      info: {
+        profession: 9, // Revenant
+
+        specializationId1: 15, // Devastation
+        traitChoices1: [1, 1, 1],
+        specializationId2: 3, // Invocation
+        traitChoices2: [2, 2, 2],
+        specializationId3: 52, // Herald
+        traitChoices3: [3, 3, 3],
+
+        terrestrialHealSkill: 4572, // Enchanted Daggers
+        terrestrialUtilitySkill1: 4651, // Phase Traversal
+        terrestrialUtilitySkill2: 4614, // Riposting Shadows
+        terrestrialUtilitySkill3: 4564, // Impossible Odds
+        terrestrialEliteSkill: 4554, // Jade Winds
+
+        aquaticHealSkill: 4572, // Soothing Stone
+        aquaticUtilitySkill1: 4651, // Forced Engagement
+        aquaticUtilitySkill2: 4614, // Inspiring Reinforcement
+        aquaticUtilitySkill3: 4564, // Vengeful Hammers
+        aquaticEliteSkill: 4554, // Rite of the Great Dwarf
+
+        terrestrialLegend1: 14, // Dragon
+        terrestrialLegend2: 13, // Assassin
+        aquaticLegend1: 15, // Demon
+        aquaticLegend2: 16, // Dwarf
+      }
+  }
 ]
 
 describe('encoding', () => {
