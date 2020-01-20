@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    /* Basic Options */
+    "target": "es5",
+    "module": "commonjs",
+    "lib": ["esnext"],
+    "allowJs": false,
+    "noEmitOnError": true,
+    "newLine": "lf",
+    "outDir": "build/",
+    "declaration": true,
+    "sourceMap": true,
+
+    /* Type-Checking Options */
+    "strict": true,
+    "skipLibCheck": true,
+
+    /* Module Resolution Options */
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["src", "tests"],
+  "exclude": ["node_modules"]
+}

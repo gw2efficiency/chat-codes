@@ -1,31 +1,34 @@
 import base64 from 'base64-js'
-const codeTypes = {
+
+type TODO = any // TODO (Cleanup) Replace with real types
+
+const codeTypes: { [key: string]: number } = {
   item: 0x02,
   map: 0x04,
   skill: 0x06,
   trait: 0x07,
   recipe: 0x09,
-  skin: 0x0A,
-  outfit: 0x0B,
-  objective: 0x0C,
-  build: 0x0D
+  skin: 0x0a,
+  outfit: 0x0b,
+  objective: 0x0c,
+  build: 0x0d
 }
 
-const itemFlags = {
+const itemFlags: { [key: string]: number } = {
   skin: 0x80,
   upgrade1: 0x40,
   upgrade2: 0x20
 }
 
-export default {encode, decode}
+export default { encode, decode }
 
-export function encode (type, info) {
+export function encode(type: TODO, info: TODO) {
   // Grab the right type id
   type = codeTypeByName(type)
 
   // Normalize the info object if only the id was passed
   if ((!info || !info.id) && type !== codeTypes.build) {
-    info = {id: info}
+    info = { id: info }
   }
 
   if (type === codeTypes.objective) {
@@ -42,7 +45,7 @@ export function encode (type, info) {
   const id = parseInt(info.id, 10)
 
   // Make sure the type and id are valid
-  if (!type || (isNaN(id) || id < 0) && type !== codeTypes.build) {
+  if (!type || ((isNaN(id) || id < 0) && type !== codeTypes.build)) {
     return false
   }
 
@@ -179,13 +182,13 @@ export function encode (type, info) {
   }
 
   // Convert to binary
-  let base = base64.fromByteArray(data)
+  let base = base64.fromByteArray(Uint8Array.from(data))
 
   // Return a chat code
   return '[&' + base + ']'
 }
 
-export function decode (chatcode) {
+export function decode(chatcode: string) {
   // Check if the chat code matches the basic structure
   if (!chatcode.match(/\[&([a-z\d+/]+=*)]/i)) {
     return false
@@ -202,7 +205,7 @@ export function decode (chatcode) {
   const type = data[offset++]
 
   // Object with decoded data
-  const decoded = {
+  const decoded: TODO = {
     type: codeTypeById(type)
   }
 
@@ -218,7 +221,7 @@ export function decode (chatcode) {
 
   // Get the id out of the non-header bytes
   if (type !== codeTypes.build) {
-    decoded.id = data[offset++] | data[offset++] << 8 | data[offset++] << 16
+    decoded.id = data[offset++] | (data[offset++] << 8) | (data[offset++] << 16)
   }
 
   // Read more item details
@@ -227,7 +230,8 @@ export function decode (chatcode) {
 
     // Skin
     if ((flags & itemFlags.skin) === itemFlags.skin) {
-      decoded.skin = data[offset++] | data[offset++] << 8 | data[offset++] << 16
+      decoded.skin =
+        data[offset++] | (data[offset++] << 8) | (data[offset++] << 16)
 
       // skip next byte (always 0x00)
       offset++
@@ -235,7 +239,9 @@ export function decode (chatcode) {
 
     // Upgrade slot 1
     if ((flags & itemFlags.upgrade1) === itemFlags.upgrade1) {
-      decoded.upgrades = [data[offset++] | data[offset++] << 8 | data[offset++] << 16]
+      decoded.upgrades = [
+        data[offset++] | (data[offset++] << 8) | (data[offset++] << 16)
+      ]
 
       // skip next byte (always 0x00)
       offset++
@@ -243,32 +249,48 @@ export function decode (chatcode) {
 
     // Upgrade slot 2
     if ((flags & itemFlags.upgrade2) === itemFlags.upgrade2) {
-      decoded.upgrades[1] = data[offset++] | data[offset++] << 8 | data[offset++] << 16
+      decoded.upgrades[1] =
+        data[offset++] | (data[offset++] << 8) | (data[offset++] << 16)
     }
   } else if (type === codeTypes.objective) {
     offset++
 
-    decoded.id = (data[offset++] | data[offset++] << 8 | data[offset++] << 16) + '-' + decoded.id
+    decoded.id =
+      (data[offset++] | (data[offset++] << 8) | (data[offset++] << 16)) +
+      '-' +
+      decoded.id
   } else if (type === codeTypes.build) {
     decoded.profession = data[offset++]
 
     decoded.specializationId1 = data[offset++]
-    decoded.traitChoices1 = [ data[offset] & 3, (data[offset] >> 2) & 3, (data[offset++] >> 4 & 3) ]
+    decoded.traitChoices1 = [
+      data[offset] & 3,
+      (data[offset] >> 2) & 3,
+      (data[offset++] >> 4) & 3
+    ]
     decoded.specializationId2 = data[offset++]
-    decoded.traitChoices2 = [ data[offset] & 3, (data[offset] >> 2) & 3, (data[offset++] >> 4 & 3) ]
+    decoded.traitChoices2 = [
+      data[offset] & 3,
+      (data[offset] >> 2) & 3,
+      (data[offset++] >> 4) & 3
+    ]
     decoded.specializationId3 = data[offset++]
-    decoded.traitChoices3 = [ data[offset] & 3, (data[offset] >> 2) & 3, (data[offset++] >> 4 & 3) ]
+    decoded.traitChoices3 = [
+      data[offset] & 3,
+      (data[offset] >> 2) & 3,
+      (data[offset++] >> 4) & 3
+    ]
 
-    decoded.terrestrialHealSkill = data[offset++] | data[offset++] << 8
-    decoded.aquaticHealSkill = data[offset++] | data[offset++] << 8
-    decoded.terrestrialUtilitySkill1 = data[offset++] | data[offset++] << 8
-    decoded.aquaticUtilitySkill1 = data[offset++] | data[offset++] << 8
-    decoded.terrestrialUtilitySkill2 = data[offset++] | data[offset++] << 8
-    decoded.aquaticUtilitySkill2 = data[offset++] | data[offset++] << 8
-    decoded.terrestrialUtilitySkill3 = data[offset++] | data[offset++] << 8
-    decoded.aquaticUtilitySkill3 = data[offset++] | data[offset++] << 8
-    decoded.terrestrialEliteSkill = data[offset++] | data[offset++] << 8
-    decoded.aquaticEliteSkill = data[offset++] | data[offset++] << 8
+    decoded.terrestrialHealSkill = data[offset++] | (data[offset++] << 8)
+    decoded.aquaticHealSkill = data[offset++] | (data[offset++] << 8)
+    decoded.terrestrialUtilitySkill1 = data[offset++] | (data[offset++] << 8)
+    decoded.aquaticUtilitySkill1 = data[offset++] | (data[offset++] << 8)
+    decoded.terrestrialUtilitySkill2 = data[offset++] | (data[offset++] << 8)
+    decoded.aquaticUtilitySkill2 = data[offset++] | (data[offset++] << 8)
+    decoded.terrestrialUtilitySkill3 = data[offset++] | (data[offset++] << 8)
+    decoded.aquaticUtilitySkill3 = data[offset++] | (data[offset++] << 8)
+    decoded.terrestrialEliteSkill = data[offset++] | (data[offset++] << 8)
+    decoded.aquaticEliteSkill = data[offset++] | (data[offset++] << 8)
 
     if (decoded.profession === 0x04) {
       // Ranger
@@ -289,27 +311,30 @@ export function decode (chatcode) {
   return decoded
 }
 
-function write2Bytes (data, value) {
-  data.push((value >> 0x00) & 0xFF)
-  data.push((value >> 0x08) & 0xFF)
+function write2Bytes(data: Array<number>, value: number) {
+  data.push((value >> 0x00) & 0xff)
+  data.push((value >> 0x08) & 0xff)
 }
 
-function write3Bytes (data, value) {
-  data.push((value >> 0x00) & 0xFF)
-  data.push((value >> 0x08) & 0xFF)
-  data.push((value >> 0x10) & 0xFF)
+function write3Bytes(data: Array<number>, value: number) {
+  data.push((value >> 0x00) & 0xff)
+  data.push((value >> 0x08) & 0xff)
+  data.push((value >> 0x10) & 0xff)
 }
 
-function writeTraitSelection (data, [trait1, trait2, trait3]) {
+function writeTraitSelection(
+  data: Array<number>,
+  [trait1, trait2, trait3]: [number, number, number]
+) {
   const value = ((trait3 & 3) << 4) | ((trait2 & 3) << 2) | ((trait1 & 3) << 0)
   data.push(value)
 }
 
-function codeTypeByName (name) {
+function codeTypeByName(name: string) {
   return codeTypes[name.trim().toLowerCase()]
 }
 
-function codeTypeById (id) {
+function codeTypeById(id: number) {
   for (let key in codeTypes) {
     if (codeTypes[key] === id) {
       return key
