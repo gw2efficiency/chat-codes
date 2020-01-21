@@ -1,5 +1,5 @@
-/* eslint-env node, mocha */
-import codes from '../src/index'
+import chatCodes from '../src/index'
+import { CodeType } from '../src/static'
 
 const testCases = [
   { type: 'map', id: 825, code: '[&BDkDAAA=]' },
@@ -12,36 +12,24 @@ const testCases = [
 ]
 
 const itemTestCases = [
-  { type: 'item', info: { id: 46762 }, code: '[&AgGqtgAA]' },
-  { type: 'item', info: { id: 46762, quantity: 42 }, code: '[&AiqqtgAA]' },
+  { type: 'item', meta: { id: 46762 }, code: '[&AgGqtgAA]' },
+  { type: 'item', meta: { id: 46762, quantity: 42 }, code: '[&AiqqtgAA]' },
+  { type: 'item', meta: { id: 46762, upgrades: [24575] }, code: '[&AgGqtgBA/18AAA==]' },
+  { type: 'item', meta: { id: 46762, upgrades: [24575, 24615] }, code: '[&AgGqtgBg/18AACdgAAA=]' },
+  { type: 'item', meta: { id: 46762, skin: 3709 }, code: '[&AgGqtgCAfQ4AAA==]' },
   {
     type: 'item',
-    info: { id: 46762, upgrades: [24575] },
-    code: '[&AgGqtgBA/18AAA==]'
-  },
-  {
-    type: 'item',
-    info: { id: 46762, upgrades: [24575, 24615] },
-    code: '[&AgGqtgBg/18AACdgAAA=]'
-  },
-  {
-    type: 'item',
-    info: { id: 46762, skin: 3709 },
-    code: '[&AgGqtgCAfQ4AAA==]'
-  },
-  {
-    type: 'item',
-    info: { id: 46762, skin: 3709, upgrades: [24575] },
+    meta: { id: 46762, skin: 3709, upgrades: [24575] },
     code: '[&AgGqtgDAfQ4AAP9fAAA=]'
   },
   {
     type: 'item',
-    info: { id: 46762, skin: 3709, upgrades: [24575, 24615] },
+    meta: { id: 46762, skin: 3709, upgrades: [24575, 24615] },
     code: '[&AgGqtgDgfQ4AAP9fAAAnYAAA]'
   },
   {
     type: 'item',
-    info: { id: 46762, quantity: 42, skin: 3709, upgrades: [24575, 24615] },
+    meta: { id: 46762, quantity: 42, skin: 3709, upgrades: [24575, 24615] },
     code: '[&AiqqtgDgfQ4AAP9fAAAnYAAA]'
   }
 ]
@@ -49,8 +37,34 @@ const itemTestCases = [
 const buildTestCases = [
   {
     type: 'build',
+    code: '[&DQYfLSkaOCcXAXQANRfLAL4BjwBOARwBlwCWAAAAAAAAAAAAAAAAAAAAAAA=]',
+    meta: {
+      profession: 6, // Elementalist
+
+      specializationId1: 31, // Fire
+      traitChoices1: [1, 3, 2],
+      specializationId2: 41, // Air
+      traitChoices2: [2, 2, 1],
+      specializationId3: 56, // Weaver
+      traitChoices3: [3, 1, 2],
+
+      terrestrialHealSkill: 279, // Glyph of Elemental Harmony
+      terrestrialUtilitySkill1: 5941, // Primordial Stance
+      terrestrialUtilitySkill2: 446, // Glyph of Storms
+      terrestrialUtilitySkill3: 334, // Arcane Wave
+      terrestrialEliteSkill: 151, // Conjure Fiery Greatsword
+
+      aquaticHealSkill: 116, // Signet of Restoration
+      aquaticUtilitySkill1: 203, // Signet of Fire
+      aquaticUtilitySkill2: 143, // Signet of Water
+      aquaticUtilitySkill3: 284, // Signet of Air
+      aquaticEliteSkill: 150 // Tornado
+    }
+  },
+  {
+    type: 'build',
     code: '[&DQQhNx4XNy4uFyUPvgC9ALoAvADpFpYBLhaXAQEECxMAAAAAAAAAAAAAAAA=]',
-    info: {
+    meta: {
       profession: 4, // Ranger
 
       specializationId1: 33, // Wilderness Survival
@@ -80,34 +94,8 @@ const buildTestCases = [
   },
   {
     type: 'build',
-    code: '[&DQYfLSkaOCcXAXQANRfLAL4BjwBOARwBlwCWAAAAAAAAAAAAAAAAAAAAAAA=]',
-    info: {
-      profession: 6, // Elementalist
-
-      specializationId1: 31, // Fire
-      traitChoices1: [1, 3, 2],
-      specializationId2: 41, // Air
-      traitChoices2: [2, 2, 1],
-      specializationId3: 56, // Weaver
-      traitChoices3: [3, 1, 2],
-
-      terrestrialHealSkill: 279, // Glyph of Elemental Harmony
-      terrestrialUtilitySkill1: 5941, // Primordial Stance
-      terrestrialUtilitySkill2: 446, // Glyph of Storms
-      terrestrialUtilitySkill3: 334, // Arcane Wave
-      terrestrialEliteSkill: 151, // Conjure Fiery Greatsword
-
-      aquaticHealSkill: 116, // Signet of Restoration
-      aquaticUtilitySkill1: 203, // Signet of Fire
-      aquaticUtilitySkill2: 143, // Signet of Water
-      aquaticUtilitySkill3: 284, // Signet of Air
-      aquaticEliteSkill: 150 // Tornado
-    }
-  },
-  {
-    type: 'build',
     code: '[&DQkPFQMqND/cEdwRKxIrEgYSBhLUEdQRyhHKEQ4NDxAAAAAAAAAAAAAAAAA=]',
-    info: {
+    meta: {
       profession: 9, // Revenant
 
       specializationId1: 15, // Devastation
@@ -140,15 +128,16 @@ const buildTestCases = [
 describe('encoding', () => {
   testCases.map((test) => {
     it('encodes ' + test.type + ' chat codes correctly', () => {
-      expect(codes.encode(test.type, test.id)).toEqual(test.code)
+      expect(chatCodes.encode(test.type as CodeType, test.id)).toEqual(test.code)
     })
   })
 
   it('encodes item chat codes correctly', () => {
-    expect(codes.encode('item', 46762)).toEqual('[&AgGqtgAA]')
+    expect(chatCodes.encode('item', 46762)).toEqual('[&AgGqtgAA]')
+    expect(chatCodes.encode('item', '46762')).toEqual('[&AgGqtgAA]')
 
     itemTestCases.map((test) => {
-      expect(codes.encode(test.type, test.info)).toEqual(test.code)
+      expect(chatCodes.encode(test.type as CodeType, test.meta)).toEqual(test.code)
     })
   })
 
@@ -161,57 +150,70 @@ describe('encoding', () => {
       binding: 'Account'
     }
 
-    expect(codes.encode('item', item)).toEqual('[&AgGqtgDgrxYAAOpfAAAnYAAA]')
+    expect(chatCodes.encode('item', item)).toEqual('[&AgGqtgDgrxYAAOpfAAAnYAAA]')
   })
 
   it('encodes build chat codes correctly', () => {
     buildTestCases.map((test) => {
-      expect(codes.encode(test.type, test.info)).toEqual(test.code)
+      expect(chatCodes.encode(test.type as CodeType, test.meta)).toEqual(test.code)
     })
   })
 
   it('fails gracefully for a invalid type', () => {
-    expect(codes.encode('nonexisting', 123)).toEqual(false)
+    expect(chatCodes.encode('nonexisting' as CodeType, 123)).toEqual(false)
   })
 
   it('fails gracefully for a invalid id', () => {
-    expect(codes.encode('item', '#notanid')).toEqual(false)
-    expect(codes.encode('item', -5)).toEqual(false)
-    expect(codes.encode('item', {})).toEqual(false)
-    expect(codes.encode('item', { id: '#notanid' })).toEqual(false)
-    expect(codes.encode('item', { id: -5 })).toEqual(false)
-    expect(codes.encode('objective', 5)).toEqual(false)
+    expect(chatCodes.encode('item', '#notanid')).toEqual(false)
+    expect(chatCodes.encode('item', -5)).toEqual(false)
+    expect(chatCodes.encode('item', {})).toEqual(false)
+    expect(chatCodes.encode('item', { id: '#notanid' })).toEqual(false)
+    expect(chatCodes.encode('item', { id: -5 })).toEqual(false)
+
+    expect(chatCodes.encode('objective', '1-foo')).toEqual(false)
+    expect(chatCodes.encode('objective', 'foo-1')).toEqual(false)
+    expect(chatCodes.encode('objective', '#notanid')).toEqual(false)
+    expect(chatCodes.encode('objective', -5)).toEqual(false)
+    expect(chatCodes.encode('objective', {})).toEqual(false)
+    expect(chatCodes.encode('objective', { id: '#notanid' })).toEqual(false)
+    expect(chatCodes.encode('objective', { id: -5 })).toEqual(false)
+
+    expect(chatCodes.encode('map', '#notanid')).toEqual(false)
+    expect(chatCodes.encode('map', -5)).toEqual(false)
+    expect(chatCodes.encode('map', {})).toEqual(false)
+    expect(chatCodes.encode('map', { id: '#notanid' })).toEqual(false)
+    expect(chatCodes.encode('map', { id: -5 })).toEqual(false)
   })
 })
 
 describe('decoding', () => {
   testCases.map((test) => {
     it('decodes ' + test.type + ' chat codes correctly', () => {
-      expect(codes.decode(test.code)).toEqual({ type: test.type, id: test.id })
+      expect(chatCodes.decode(test.code)).toEqual({ type: test.type, id: test.id })
     })
   })
 
   it('decodes item chat codes correctly', () => {
     itemTestCases.map((test) => {
-      expect(codes.decode(test.code)).toEqual({
+      expect(chatCodes.decode(test.code)).toEqual({
         type: test.type,
         quantity: 1,
-        ...test.info
+        ...test.meta
       })
     })
   })
 
   it('decodes build chat codes correctly', () => {
     buildTestCases.map((test) => {
-      expect(codes.decode(test.code)).toEqual({ type: test.type, ...test.info })
+      expect(chatCodes.decode(test.code)).toEqual({ type: test.type, ...test.meta })
     })
   })
 
   it('fails gracefully for a invalid format', () => {
-    expect(codes.decode('this is not a chat code')).toEqual(false)
+    expect(chatCodes.decode('this is not a chat code')).toEqual(false)
   })
 
   it('fails gracefully for a invalid type', () => {
-    expect(codes.decode('[&BXsAAAA=]')).toEqual(false)
+    expect(chatCodes.decode('[&BXsAAAA=]')).toEqual(false)
   })
 })
