@@ -1,44 +1,85 @@
 import { CodeType, PROFESSION_FLAGS } from '../static'
 import { ChatCodeStruct } from '../ChatCodeStruct'
-import { BuildLinkMeta } from '../encode/encodeBuildLink'
 
-// TODO (Review)
 export function decodeBuildLink(struct: ChatCodeStruct) {
-  let decoded: any = { type: 'build' as CodeType } // TODO (Cleanup)
+  const type = 'build' as CodeType
 
-  decoded.profession = struct.read1Byte()
+  const profession = struct.read1Byte()
 
-  decoded.specializationId1 = struct.read1Byte()
-  decoded.traitChoices1 = struct.readTraitSelection()
-  decoded.specializationId2 = struct.read1Byte()
-  decoded.traitChoices2 = struct.readTraitSelection()
-  decoded.specializationId3 = struct.read1Byte()
-  decoded.traitChoices3 = struct.readTraitSelection()
+  const specialization1 = struct.read1Byte()
+  const traitChoices1 = struct.readTraitSelection()
+  const specialization2 = struct.read1Byte()
+  const traitChoices2 = struct.readTraitSelection()
+  const specialization3 = struct.read1Byte()
+  const traitChoices3 = struct.readTraitSelection()
 
-  decoded.terrestrialHealSkill = struct.read2Bytes()
-  decoded.aquaticHealSkill = struct.read2Bytes()
-  decoded.terrestrialUtilitySkill1 = struct.read2Bytes()
-  decoded.aquaticUtilitySkill1 = struct.read2Bytes()
-  decoded.terrestrialUtilitySkill2 = struct.read2Bytes()
-  decoded.aquaticUtilitySkill2 = struct.read2Bytes()
-  decoded.terrestrialUtilitySkill3 = struct.read2Bytes()
-  decoded.aquaticUtilitySkill3 = struct.read2Bytes()
-  decoded.terrestrialEliteSkill = struct.read2Bytes()
-  decoded.aquaticEliteSkill = struct.read2Bytes()
+  const terrestrialHealSkill = struct.read2Bytes()
+  const aquaticHealSkill = struct.read2Bytes()
+  const terrestrialUtilitySkill1 = struct.read2Bytes()
+  const aquaticUtilitySkill1 = struct.read2Bytes()
+  const terrestrialUtilitySkill2 = struct.read2Bytes()
+  const aquaticUtilitySkill2 = struct.read2Bytes()
+  const terrestrialUtilitySkill3 = struct.read2Bytes()
+  const aquaticUtilitySkill3 = struct.read2Bytes()
+  const terrestrialEliteSkill = struct.read2Bytes()
+  const aquaticEliteSkill = struct.read2Bytes()
 
-  if (decoded.profession === PROFESSION_FLAGS.ranger) {
-    // Ranger
-    decoded.terrestrialPet1 = struct.read1Byte()
-    decoded.terrestrialPet2 = struct.read1Byte()
-    decoded.aquaticPet1 = struct.read1Byte()
-    decoded.aquaticPet2 = struct.read1Byte()
-  } else if (decoded.profession === PROFESSION_FLAGS.revenant) {
-    // Revenant
-    decoded.terrestrialLegend1 = struct.read1Byte()
-    decoded.terrestrialLegend2 = struct.read1Byte()
-    decoded.aquaticLegend1 = struct.read1Byte()
-    decoded.aquaticLegend2 = struct.read1Byte()
+  // Ranger
+  let terrestrialPet1
+  let terrestrialPet2
+  let aquaticPet1
+  let aquaticPet2
+  if (profession === PROFESSION_FLAGS.ranger) {
+    terrestrialPet1 = struct.read1Byte()
+    terrestrialPet2 = struct.read1Byte()
+    aquaticPet1 = struct.read1Byte()
+    aquaticPet2 = struct.read1Byte()
   }
 
-  return decoded as BuildLinkMeta
+  // Revenant
+  let terrestrialLegend1
+  let terrestrialLegend2
+  let aquaticLegend1
+  let aquaticLegend2
+  if (profession === PROFESSION_FLAGS.revenant) {
+    terrestrialLegend1 = struct.read1Byte()
+    terrestrialLegend2 = struct.read1Byte()
+    aquaticLegend1 = struct.read1Byte()
+    aquaticLegend2 = struct.read1Byte()
+  }
+
+  return {
+    type,
+
+    profession,
+
+    specialization1,
+    traitChoices1,
+    specialization2,
+    traitChoices2,
+    specialization3,
+    traitChoices3,
+
+    terrestrialHealSkill,
+    terrestrialUtilitySkill1,
+    terrestrialUtilitySkill2,
+    terrestrialUtilitySkill3,
+    terrestrialEliteSkill,
+
+    aquaticHealSkill,
+    aquaticUtilitySkill1,
+    aquaticUtilitySkill2,
+    aquaticUtilitySkill3,
+    aquaticEliteSkill,
+
+    terrestrialPet1,
+    terrestrialPet2,
+    aquaticPet1,
+    aquaticPet2,
+
+    terrestrialLegend1,
+    terrestrialLegend2,
+    aquaticLegend1,
+    aquaticLegend2
+  }
 }

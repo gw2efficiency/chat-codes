@@ -1,4 +1,3 @@
-// TODO (Review)
 export type CodeType =
   | 'item'
   | 'map'

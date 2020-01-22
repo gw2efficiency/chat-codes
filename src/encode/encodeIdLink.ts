@@ -2,15 +2,14 @@ import { ChatCodeStruct } from '../ChatCodeStruct'
 
 export type IdLinkMeta = { id?: string | number }
 
-// TODO (Review)
-export function encodeIdLink(typeHeader: number, meta: IdLinkMeta): string | false {
+export function encodeIdLink(typeHeader: number, meta: IdLinkMeta) {
   // Make sure the ID is valid
   const id = parseInt(meta.id as string)
   if (isNaN(id) || id < 0) return false
 
   const struct = new ChatCodeStruct()
 
-  // Add the header describing the type of the link
+  // Add the header describing the type of the chat code
   struct.write1Byte(typeHeader)
 
   // Encode the ID as a 3-byte little endian integer

@@ -5,7 +5,6 @@ import { decodeObjectiveLink } from './decodeObjectiveLink'
 import { decodeItemLink } from './decodeItemLink'
 import { decodeBuildLink } from './decodeBuildLink'
 
-// TODO (Review)
 export function decode(chatCode: string) {
   // Check if the chat code matches the basic structure it should have
   if (!chatCode.match(/\[&([a-z\d+/]+=*)]/i)) {
@@ -16,7 +15,7 @@ export function decode(chatCode: string) {
   const struct = new ChatCodeStruct()
   struct.decodeFromChatCode(chatCode)
 
-  // The header describing the type of the link is encoded as the first byte
+  // The header describing the type of the chat code is encoded as the first byte
   const typeHeader = struct.read1Byte()
   const codeType = Object.keys(TYPE_HEADERS).find(
     (key) => TYPE_HEADERS[key as CodeType] === typeHeader

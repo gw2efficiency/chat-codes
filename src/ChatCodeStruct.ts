@@ -1,6 +1,5 @@
 import base64 from 'base64-js'
 
-// TODO (Review)
 export class ChatCodeStruct {
   private bytes: Array<number> = []
   private offset: number = 0

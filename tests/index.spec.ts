@@ -1,7 +1,9 @@
 import chatCodes from '../src/index'
 import { CodeType } from '../src/static'
+import { ItemLinkMeta } from '../src/encode/encodeItemLink'
+import { BuildLinkMeta } from '../src/encode/encodeBuildLink'
 
-const testCases = [
+const testCases: Array<{ type: CodeType; code: string; id: number | string }> = [
   { type: 'map', id: 825, code: '[&BDkDAAA=]' },
   { type: 'skill', id: 5842, code: '[&BtIWAAA=]' },
   { type: 'trait', id: 1010, code: '[&B/IDAAA=]' },
@@ -11,7 +13,7 @@ const testCases = [
   { type: 'objective', id: '38-11', code: '[&DAsAAAAmAAAA]' }
 ]
 
-const itemTestCases = [
+const itemTestCases: Array<{ type: 'item'; code: string; meta: ItemLinkMeta }> = [
   { type: 'item', meta: { id: 46762 }, code: '[&AgGqtgAA]' },
   { type: 'item', meta: { id: 46762, quantity: 42 }, code: '[&AiqqtgAA]' },
   { type: 'item', meta: { id: 46762, upgrades: [24575] }, code: '[&AgGqtgBA/18AAA==]' },
@@ -34,18 +36,18 @@ const itemTestCases = [
   }
 ]
 
-const buildTestCases = [
+const buildTestCases: Array<{ type: 'build'; code: string; meta: BuildLinkMeta }> = [
   {
     type: 'build',
     code: '[&DQYfLSkaOCcXAXQANRfLAL4BjwBOARwBlwCWAAAAAAAAAAAAAAAAAAAAAAA=]',
     meta: {
       profession: 6, // Elementalist
 
-      specializationId1: 31, // Fire
+      specialization1: 31, // Fire
       traitChoices1: [1, 3, 2],
-      specializationId2: 41, // Air
+      specialization2: 41, // Air
       traitChoices2: [2, 2, 1],
-      specializationId3: 56, // Weaver
+      specialization3: 56, // Weaver
       traitChoices3: [3, 1, 2],
 
       terrestrialHealSkill: 279, // Glyph of Elemental Harmony
@@ -67,11 +69,11 @@ const buildTestCases = [
     meta: {
       profession: 4, // Ranger
 
-      specializationId1: 33, // Wilderness Survival
+      specialization1: 33, // Wilderness Survival
       traitChoices1: [3, 1, 3],
-      specializationId2: 30, // Skirmishing
+      specialization2: 30, // Skirmishing
       traitChoices2: [3, 1, 1],
-      specializationId3: 55, // Soulbeast
+      specialization3: 55, // Soulbeast
       traitChoices3: [2, 3, 2],
 
       terrestrialHealSkill: 5934, // Bear Stance
@@ -98,11 +100,11 @@ const buildTestCases = [
     meta: {
       profession: 9, // Revenant
 
-      specializationId1: 15, // Devastation
+      specialization1: 15, // Devastation
       traitChoices1: [1, 1, 1],
-      specializationId2: 3, // Invocation
+      specialization2: 3, // Invocation
       traitChoices2: [2, 2, 2],
-      specializationId3: 52, // Herald
+      specialization3: 52, // Herald
       traitChoices3: [3, 3, 3],
 
       terrestrialHealSkill: 4572, // Enchanted Daggers
@@ -128,7 +130,7 @@ const buildTestCases = [
 describe('encoding', () => {
   testCases.map((test) => {
     it('encodes ' + test.type + ' chat codes correctly', () => {
-      expect(chatCodes.encode(test.type as CodeType, test.id)).toEqual(test.code)
+      expect(chatCodes.encode(test.type, test.id)).toEqual(test.code)
     })
   })
 
@@ -137,7 +139,7 @@ describe('encoding', () => {
     expect(chatCodes.encode('item', '46762')).toEqual('[&AgGqtgAA]')
 
     itemTestCases.map((test) => {
-      expect(chatCodes.encode(test.type as CodeType, test.meta)).toEqual(test.code)
+      expect(chatCodes.encode(test.type, test.meta)).toEqual(test.code)
     })
   })
 
@@ -155,7 +157,7 @@ describe('encoding', () => {
 
   it('encodes build chat codes correctly', () => {
     buildTestCases.map((test) => {
-      expect(chatCodes.encode(test.type as CodeType, test.meta)).toEqual(test.code)
+      expect(chatCodes.encode(test.type, test.meta)).toEqual(test.code)
     })
   })
 

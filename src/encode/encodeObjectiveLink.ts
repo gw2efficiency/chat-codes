@@ -3,9 +3,8 @@ import { ChatCodeStruct } from '../ChatCodeStruct'
 
 export type ObjectiveLinkMeta = { id?: string }
 
-// TODO (Review)
-export function encodeObjectiveLink(meta: ObjectiveLinkMeta): string | false {
-  // Make sure the IDs are valid
+export function encodeObjectiveLink(meta: ObjectiveLinkMeta) {
+  // Parse the objective ID and make sure the IDs are valid
   const objectiveIdSplit = ('' + meta.id).split('-')
 
   const map = parseInt(objectiveIdSplit[0])
@@ -16,7 +15,7 @@ export function encodeObjectiveLink(meta: ObjectiveLinkMeta): string | false {
 
   const struct = new ChatCodeStruct()
 
-  // Add the header describing the type of the link
+  // Add the header describing the type of the chat code
   struct.write1Byte(TYPE_HEADERS.objective)
 
   // Encode the objective identifier

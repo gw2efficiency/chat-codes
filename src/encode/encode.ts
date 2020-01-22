@@ -5,7 +5,7 @@ import { encodeItemLink, ItemLinkMeta } from './encodeItemLink'
 import { BuildLinkMeta, encodeBuildLink } from './encodeBuildLink'
 
 type MetaOrId = string | number | IdLinkMeta | ItemLinkMeta | ObjectiveLinkMeta | BuildLinkMeta
-// TODO (Review)
+
 export function encode(type: CodeType, metaOrId: MetaOrId): string | false {
   const codeType = type.trim().toLowerCase() as CodeType
 
