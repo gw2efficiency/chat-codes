@@ -1,12 +1,14 @@
 {
   "name": "gw2e-chat-codes",
   "version": "1.2.0",
-  "description": "Encode and decode guildwars2 chat codes",
-  "main": "./build/index.js",
+  "description": "Encode and decode Guild Wars 2 chat codes",
+  "main": "./build/src/index.js",
   "scripts": {
-    "build": "abc build",
-    "test": "abc test && abc lint",
-    "version": "abc build"
+    "build": "rm -rf build/ && tsc",
+    "test": "jest",
+    "format": "prettier --write 'src/**/*.ts' 'tests/**/*.ts'",
+    "lint": "prettier --check 'src/**/*.ts' 'tests/**/*.ts'",
+    "version": "npm run build"
   },
   "author": "queicherius@gmail.com",
   "license": "MIT",
@@ -18,6 +20,11 @@
     "base64-js": "^1.1.2"
   },
   "devDependencies": {
-    "abc-environment": "^2.0.0"
+    "@types/base64-js": "^1.2.5",
+    "@types/jest": "^24.9.0",
+    "jest": "^24.9.0",
+    "prettier": "^1.19.1",
+    "ts-jest": "^24.3.0",
+    "typescript": "^3.7.5"
   }
 }

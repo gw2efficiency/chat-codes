@@ -3,7 +3,7 @@
 [![Build Status](https://img.shields.io/travis/gw2efficiency/chat-codes.svg?style=flat-square)](https://travis-ci.org/gw2efficiency/chat-codes)
 [![Coverage Status](https://img.shields.io/codecov/c/github/gw2efficiency/chat-codes/master.svg?style=flat-square)](https://codecov.io/github/gw2efficiency/chat-codes)
 
-> Encode and decode guildwars2 chat codes
+> Encode and decode Guild Wars2 chat codes
 
 *This is part of [gw2efficiency](https://gw2efficiency.com). Please report all issues in [the central repository](https://github.com/gw2efficiency/issues/issues).*
 
@@ -18,7 +18,7 @@ This module can be used for Node.js as well as browsers using [Browserify](https
 ## Usage
 
 ```js
-import {encode, decode} from 'gw2e-chat-codes'
+const { encode, decode } = require('gw2e-chat-codes')
 
 // Encode a type and id as a chat code
 // Valid types are item, map, skill, trait, recipe, skin, outfit & objective
@@ -45,4 +45,5 @@ npm test
 MIT
 
 Big thanks to [codemasher](https://github.com/codemasher) & [poke](https://github.com/poke),
-who wrote [this algorithm in PHP](https://gist.github.com/codemasher/47dea40f70f990480c5b).
+who wrote [this algorithm in PHP](https://gist.github.com/codemasher/47dea40f70f990480c5b), and 
+[darthmaim](https://github.com/darthmaim) who wrote most of the build template link code.
