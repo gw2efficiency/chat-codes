@@ -8,7 +8,7 @@
     "test": "jest",
     "format": "prettier --write 'src/**/*.ts' 'tests/**/*.ts'",
     "lint": "prettier --check 'src/**/*.ts' 'tests/**/*.ts'",
-    "version": "npm run build"
+    "preversion": "npm run build"
   },
   "author": "queicherius@gmail.com",
   "license": "MIT",
