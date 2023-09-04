@@ -218,10 +218,10 @@ describe('encoding', () => {
     expect(chatCodes.encode('objective', '1-foo')).toEqual(false)
     expect(chatCodes.encode('objective', 'foo-1')).toEqual(false)
     expect(chatCodes.encode('objective', '#notanid')).toEqual(false)
-    expect(chatCodes.encode('objective', -5)).toEqual(false)
+    expect(chatCodes.encode('objective', -5 as any)).toEqual(false)
     expect(chatCodes.encode('objective', {})).toEqual(false)
     expect(chatCodes.encode('objective', { id: '#notanid' })).toEqual(false)
-    expect(chatCodes.encode('objective', { id: -5 })).toEqual(false)
+    expect(chatCodes.encode('objective', { id: -5 as any })).toEqual(false)
 
     expect(chatCodes.encode('map', '#notanid')).toEqual(false)
     expect(chatCodes.encode('map', -5)).toEqual(false)

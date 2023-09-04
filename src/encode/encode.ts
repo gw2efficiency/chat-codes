@@ -4,13 +4,23 @@ import { encodeObjectiveLink, ObjectiveLinkMeta } from './encodeObjectiveLink'
 import { encodeItemLink, ItemLinkMeta } from './encodeItemLink'
 import { BuildLinkMeta, encodeBuildLink } from './encodeBuildLink'
 
-type MetaOrId = string | number | IdLinkMeta | ItemLinkMeta | ObjectiveLinkMeta | BuildLinkMeta
+type TypeMeta = {
+  item: ItemLinkMeta | ItemLinkMeta['id']
+  map: IdLinkMeta | IdLinkMeta['id']
+  skill: IdLinkMeta | IdLinkMeta['id']
+  trait: IdLinkMeta | IdLinkMeta['id']
+  recipe: IdLinkMeta | IdLinkMeta['id']
+  skin: IdLinkMeta | IdLinkMeta['id']
+  outfit: IdLinkMeta | IdLinkMeta['id']
+  objective: ObjectiveLinkMeta | ObjectiveLinkMeta['id']
+  build: BuildLinkMeta
+}
 
-export function encode(type: CodeType, metaOrId: MetaOrId): string | false {
+export function encode<Type extends CodeType>(type: Type, data: TypeMeta[Type]): string | false {
   const codeType = type.trim().toLowerCase() as CodeType
 
   // Normalize into a meta object if only the ID was passed
-  const meta = typeof metaOrId !== 'object' ? { id: metaOrId } : metaOrId
+  const meta = typeof data !== 'object' ? { id: data } : data
 
   switch (codeType) {
     case 'map':
