@@ -14,8 +14,9 @@ yarn.lock
 # Optional npm cache directory
 .npm/
 
-# Webflow
+# IDEs
 .idea/
+.history/
 
 # Operating System
 .DS_Store

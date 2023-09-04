@@ -179,6 +179,8 @@ describe('encoding', () => {
 
   it('encodes item chat codes correctly', () => {
     expect(chatCodes.encode('item', 46762)).toEqual('[&AgGqtgAA]')
+
+    // @ts-expect-error
     expect(chatCodes.encode('item', '46762')).toEqual('[&AgGqtgAA]')
 
     itemTestCases.map((test) => {
@@ -209,9 +211,12 @@ describe('encoding', () => {
   })
 
   it('fails gracefully for a invalid id', () => {
+    // @ts-expect-error
     expect(chatCodes.encode('item', '#notanid')).toEqual(false)
     expect(chatCodes.encode('item', -5)).toEqual(false)
+    // @ts-expect-error
     expect(chatCodes.encode('item', {})).toEqual(false)
+    // @ts-expect-error
     expect(chatCodes.encode('item', { id: '#notanid' })).toEqual(false)
     expect(chatCodes.encode('item', { id: -5 })).toEqual(false)
 
@@ -219,13 +224,17 @@ describe('encoding', () => {
     expect(chatCodes.encode('objective', 'foo-1')).toEqual(false)
     expect(chatCodes.encode('objective', '#notanid')).toEqual(false)
     expect(chatCodes.encode('objective', -5 as any)).toEqual(false)
+    // @ts-expect-error
     expect(chatCodes.encode('objective', {})).toEqual(false)
     expect(chatCodes.encode('objective', { id: '#notanid' })).toEqual(false)
     expect(chatCodes.encode('objective', { id: -5 as any })).toEqual(false)
 
+    // @ts-expect-error
     expect(chatCodes.encode('map', '#notanid')).toEqual(false)
     expect(chatCodes.encode('map', -5)).toEqual(false)
+    // @ts-expect-error
     expect(chatCodes.encode('map', {})).toEqual(false)
+    // @ts-expect-error
     expect(chatCodes.encode('map', { id: '#notanid' })).toEqual(false)
     expect(chatCodes.encode('map', { id: -5 })).toEqual(false)
   })

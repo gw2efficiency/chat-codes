@@ -2,7 +2,7 @@ import { ITEM_FLAGS, TYPE_HEADERS } from '../static'
 import { ChatCodeStruct } from '../ChatCodeStruct'
 
 export type ItemLinkMeta = {
-  id?: string | number
+  id: number
   quantity?: number
   skin?: string | number
   upgrades?: Array<string | number>
@@ -10,7 +10,7 @@ export type ItemLinkMeta = {
 
 export function encodeItemLink(meta: ItemLinkMeta) {
   // Make sure the ID is valid
-  const id = parseInt(meta.id as string)
+  const id = parseInt('' + meta.id, 10)
   if (isNaN(id) || id < 0) return false
 
   const struct = new ChatCodeStruct()

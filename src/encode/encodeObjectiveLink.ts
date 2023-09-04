@@ -1,7 +1,7 @@
 import { TYPE_HEADERS } from '../static'
 import { ChatCodeStruct } from '../ChatCodeStruct'
 
-export type ObjectiveLinkMeta = { id?: string }
+export type ObjectiveLinkMeta = { id: string }
 
 export function encodeObjectiveLink(meta: ObjectiveLinkMeta) {
   // Parse the objective ID and make sure the IDs are valid

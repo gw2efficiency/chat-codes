@@ -1,10 +1,10 @@
 import { ChatCodeStruct } from '../ChatCodeStruct'
 
-export type IdLinkMeta = { id?: string | number }
+export type IdLinkMeta = { id: number }
 
 export function encodeIdLink(typeHeader: number, meta: IdLinkMeta) {
   // Make sure the ID is valid
-  const id = parseInt(meta.id as string)
+  const id = parseInt('' + meta.id, 10)
   if (isNaN(id) || id < 0) return false
 
   const struct = new ChatCodeStruct()
