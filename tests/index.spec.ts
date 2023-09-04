@@ -10,7 +10,7 @@ const testCases: Array<{ type: CodeType; code: string; id: number | string }> = 
   { type: 'recipe', id: 8, code: '[&CQgAAAA=]' },
   { type: 'skin', id: 2286, code: '[&Cu4IAAA=]' },
   { type: 'outfit', id: 28, code: '[&CxwAAAA=]' },
-  { type: 'objective', id: '38-11', code: '[&DAsAAAAmAAAA]' }
+  { type: 'objective', id: '38-11', code: '[&DAsAAAAmAAAA]' },
 ]
 
 const itemTestCases: Array<{ type: 'item'; code: string; meta: ItemLinkMeta }> = [
@@ -22,24 +22,30 @@ const itemTestCases: Array<{ type: 'item'; code: string; meta: ItemLinkMeta }> =
   {
     type: 'item',
     meta: { id: 46762, skin: 3709, upgrades: [24575] },
-    code: '[&AgGqtgDAfQ4AAP9fAAA=]'
+    code: '[&AgGqtgDAfQ4AAP9fAAA=]',
   },
   {
     type: 'item',
     meta: { id: 46762, skin: 3709, upgrades: [24575, 24615] },
-    code: '[&AgGqtgDgfQ4AAP9fAAAnYAAA]'
+    code: '[&AgGqtgDgfQ4AAP9fAAAnYAAA]',
   },
   {
     type: 'item',
     meta: { id: 46762, quantity: 42, skin: 3709, upgrades: [24575, 24615] },
-    code: '[&AiqqtgDgfQ4AAP9fAAAnYAAA]'
-  }
+    code: '[&AiqqtgDgfQ4AAP9fAAAnYAAA]',
+  },
 ]
 
-const buildTestCases: Array<{ type: 'build'; code: string; meta: BuildLinkMeta }> = [
+const buildTestCases: Array<{
+  type: 'build'
+  code: string
+  legacyCode?: string
+  meta: BuildLinkMeta
+}> = [
   {
     type: 'build',
-    code: '[&DQYfLSkaOCcXAXQANRfLAL4BjwBOARwBlwCWAAAAAAAAAAAAAAAAAAAAAAA=]',
+    code: '[&DQYfLSkaOCcXAXQANRfLAL4BjwBOARwBlwCWAAAAAAAAAAAAAAAAAAAAAAAAAA==]',
+    legacyCode: '[&DQYfLSkaOCcXAXQANRfLAL4BjwBOARwBlwCWAAAAAAAAAAAAAAAAAAAAAAA=]',
     meta: {
       profession: 6, // Elementalist
 
@@ -60,12 +66,13 @@ const buildTestCases: Array<{ type: 'build'; code: string; meta: BuildLinkMeta }
       aquaticUtilitySkill1: 203, // Signet of Fire
       aquaticUtilitySkill2: 143, // Signet of Water
       aquaticUtilitySkill3: 284, // Signet of Air
-      aquaticEliteSkill: 150 // Tornado
-    }
+      aquaticEliteSkill: 150, // Tornado
+    },
   },
   {
     type: 'build',
-    code: '[&DQQhNx4XNy4uFyUPvgC9ALoAvADpFpYBLhaXAQEECxMAAAAAAAAAAAAAAAA=]',
+    code: '[&DQQhNx4XNy4uFyUPvgC9ALoAvADpFpYBLhaXAQEECxMAAAAAAAAAAAAAAAAAAA==]',
+    legacyCode: '[&DQQhNx4XNy4uFyUPvgC9ALoAvADpFpYBLhaXAQEECxMAAAAAAAAAAAAAAAA=]',
     meta: {
       profession: 4, // Ranger
 
@@ -91,12 +98,13 @@ const buildTestCases: Array<{ type: 'build'; code: string; meta: BuildLinkMeta }
       terrestrialPet1: 1, // Juvenile Jungle Stalker
       terrestrialPet2: 4, // Juvenile Krytan Drakehound
       aquaticPet1: 11, // Juvenile Jaguar
-      aquaticPet2: 19 // Juvenile River Drake
-    }
+      aquaticPet2: 19, // Juvenile River Drake
+    },
   },
   {
     type: 'build',
-    code: '[&DQkPFQMqND/cEdwRKxIrEgYSBhLUEdQRyhHKEQ4NDxAAAAAAAAAAAAAAAAA=]',
+    code: '[&DQkPFQMqND/cEdwRKxIrEgYSBhLUEdQRyhHKEQ4NDxAAAAAAAAAAAAAAAAAAAA==]',
+    legacyCode: '[&DQkPFQMqND/cEdwRKxIrEgYSBhLUEdQRyhHKEQ4NDxAAAAAAAAAAAAAAAAA=]',
     meta: {
       profession: 9, // Revenant
 
@@ -122,9 +130,44 @@ const buildTestCases: Array<{ type: 'build'; code: string; meta: BuildLinkMeta }
       terrestrialLegend1: 14, // Dragon
       terrestrialLegend2: 13, // Assassin
       aquaticLegend1: 15, // Demon
-      aquaticLegend2: 16 // Dwarf
-    }
-  }
+      aquaticLegend2: 16, // Dwarf
+    },
+  },
+  {
+    type: 'build',
+    code: '[&DQQZGggqHiYlD3kAvQAAALkAAAC8AAAAlwEAABYAAAAAAAAAAAAAAAAAAAACMwAjAARn9wAA3fYAAJv2AADo9gAA]',
+    meta: {
+      profession: 4,
+
+      specialization1: 25,
+      traitChoices1: [2, 2, 1],
+      specialization2: 8,
+      traitChoices2: [2, 2, 2],
+      specialization3: 30,
+      traitChoices3: [2, 1, 2],
+
+      terrestrialHealSkill: 3877,
+      terrestrialUtilitySkill1: 189,
+      terrestrialUtilitySkill2: 185,
+      terrestrialUtilitySkill3: 188,
+      terrestrialEliteSkill: 407,
+
+      terrestrialPet1: 22,
+      terrestrialPet2: 0,
+
+      aquaticHealSkill: 121,
+      aquaticUtilitySkill1: 0,
+      aquaticUtilitySkill2: 0,
+      aquaticUtilitySkill3: 0,
+      aquaticEliteSkill: 0,
+
+      aquaticPet1: 0,
+      aquaticPet2: 0,
+
+      selectedWeapons: [51, 35],
+      selectedSkillVariants: [63335, 63197, 63131, 63208],
+    },
+  },
 ]
 
 describe('encoding', () => {
@@ -149,7 +192,7 @@ describe('encoding', () => {
       slot: 'WeaponA1',
       upgrades: [24554, 24615],
       skin: 5807,
-      binding: 'Account'
+      binding: 'Account',
     }
 
     expect(chatCodes.encode('item', item)).toEqual('[&AgGqtgDgrxYAAOpfAAAnYAAA]')
@@ -175,10 +218,10 @@ describe('encoding', () => {
     expect(chatCodes.encode('objective', '1-foo')).toEqual(false)
     expect(chatCodes.encode('objective', 'foo-1')).toEqual(false)
     expect(chatCodes.encode('objective', '#notanid')).toEqual(false)
-    expect(chatCodes.encode('objective', -5)).toEqual(false)
+    expect(chatCodes.encode('objective', -5 as any)).toEqual(false)
     expect(chatCodes.encode('objective', {})).toEqual(false)
     expect(chatCodes.encode('objective', { id: '#notanid' })).toEqual(false)
-    expect(chatCodes.encode('objective', { id: -5 })).toEqual(false)
+    expect(chatCodes.encode('objective', { id: -5 as any })).toEqual(false)
 
     expect(chatCodes.encode('map', '#notanid')).toEqual(false)
     expect(chatCodes.encode('map', -5)).toEqual(false)
@@ -200,7 +243,7 @@ describe('decoding', () => {
       expect(chatCodes.decode(test.code)).toEqual({
         type: test.type,
         quantity: 1,
-        ...test.meta
+        ...test.meta,
       })
     })
   })
@@ -209,6 +252,14 @@ describe('decoding', () => {
     buildTestCases.map((test) => {
       expect(chatCodes.decode(test.code)).toEqual({ type: test.type, ...test.meta })
     })
+  })
+
+  it('decodes legacy build chat codes correctly', () => {
+    buildTestCases
+      .filter(({ legacyCode }) => legacyCode !== undefined)
+      .map((test) => {
+        expect(chatCodes.decode(test.legacyCode!)).toEqual({ type: test.type, ...test.meta })
+      })
   })
 
   it('fails gracefully for a invalid format', () => {
