@@ -1,6 +1,6 @@
 # chat-codes
 
-[![Build Status](https://img.shields.io/travis/gw2efficiency/chat-codes.svg?style=flat-square)](https://travis-ci.org/gw2efficiency/chat-codes)
+[![Build Status](https://img.shields.io/travis/com/gw2efficiency/chat-codes?style=flat-square)](https://app.travis-ci.com/github/gw2efficiency/chat-codes)
 [![Coverage Status](https://img.shields.io/codecov/c/github/gw2efficiency/chat-codes/master.svg?style=flat-square)](https://codecov.io/github/gw2efficiency/chat-codes)
 
 > Encode and decode Guild Wars2 chat codes
