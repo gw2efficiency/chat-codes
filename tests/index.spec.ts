@@ -138,29 +138,29 @@ const buildTestCases: Array<{
     code:
       '[&DQQZGggqHiYlD3kAvQAAALkAAAC8AAAAlwEAABYAAAAAAAAAAAAAAAAAAAACMwAjAARn9wAA3fYAAJv2AADo9gAA]',
     meta: {
-      profession: 4, // Revenant
+      profession: 4,
 
-      specialization1: 25, // Devastation
+      specialization1: 25,
       traitChoices1: [2, 2, 1],
-      specialization2: 8, // Invocation
+      specialization2: 8,
       traitChoices2: [2, 2, 2],
-      specialization3: 30, // Herald
+      specialization3: 30,
       traitChoices3: [2, 1, 2],
 
-      terrestrialHealSkill: 3877, // Enchanted Daggers
-      terrestrialUtilitySkill1: 189, // Phase Traversal
-      terrestrialUtilitySkill2: 185, // Riposting Shadows
-      terrestrialUtilitySkill3: 188, // Impossible Odds
-      terrestrialEliteSkill: 407, // Jade Winds
+      terrestrialHealSkill: 3877,
+      terrestrialUtilitySkill1: 189,
+      terrestrialUtilitySkill2: 185,
+      terrestrialUtilitySkill3: 188,
+      terrestrialEliteSkill: 407,
 
       terrestrialPet1: 22,
       terrestrialPet2: 0,
 
-      aquaticHealSkill: 121, // Soothing Stone
-      aquaticUtilitySkill1: 0, // Forced Engagement
-      aquaticUtilitySkill2: 0, // Inspiring Reinforcement
-      aquaticUtilitySkill3: 0, // Vengeful Hammers
-      aquaticEliteSkill: 0, // Rite of the Great Dwarf
+      aquaticHealSkill: 121,
+      aquaticUtilitySkill1: 0,
+      aquaticUtilitySkill2: 0,
+      aquaticUtilitySkill3: 0,
+      aquaticEliteSkill: 0,
 
       aquaticPet1: 0,
       aquaticPet2: 0,
