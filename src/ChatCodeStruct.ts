@@ -42,11 +42,9 @@ export class ChatCodeStruct {
   }
 
   writeDynamicArray(values: number[], bytesPerValue: 2 | 4) {
-    this.write1Byte(values.length);
-    for(const value of values) {
-      bytesPerValue === 2
-        ? this.write2Bytes(value)
-        : this.write4Bytes(value);
+    this.write1Byte(values.length)
+    for (const value of values) {
+      bytesPerValue === 2 ? this.write2Bytes(value) : this.write4Bytes(value)
     }
   }
 
@@ -94,22 +92,22 @@ export class ChatCodeStruct {
   }
 
   readDynamicArray(bytesPerValue: 2 | 4): undefined | number[] {
-    const length = this.read1Byte();
+    const length = this.read1Byte()
 
-    if(length === 0) {
-      return undefined;
+    if (length === 0) {
+      return undefined
     }
 
-    const values: number[] = [];
+    const values: number[] = []
 
-    for(let i = 0; i < length; i++) {
-      values.push(bytesPerValue === 2 ? this.read2Bytes() : this.read4Bytes());
+    for (let i = 0; i < length; i++) {
+      values.push(bytesPerValue === 2 ? this.read2Bytes() : this.read4Bytes())
     }
 
-    return values;
+    return values
   }
 
   atEnd(): boolean {
-    return this.offset >= this.bytes.length;
+    return this.offset >= this.bytes.length
   }
 }

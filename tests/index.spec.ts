@@ -36,7 +36,12 @@ const itemTestCases: Array<{ type: 'item'; code: string; meta: ItemLinkMeta }> =
   }
 ]
 
-const buildTestCases: Array<{ type: 'build'; code: string; legacyCode?: string; meta: BuildLinkMeta }> = [
+const buildTestCases: Array<{
+  type: 'build'
+  code: string
+  legacyCode?: string
+  meta: BuildLinkMeta
+}> = [
   {
     type: 'build',
     code: '[&DQYfLSkaOCcXAXQANRfLAL4BjwBOARwBlwCWAAAAAAAAAAAAAAAAAAAAAAAAAA==]',
@@ -130,7 +135,8 @@ const buildTestCases: Array<{ type: 'build'; code: string; legacyCode?: string; 
   },
   {
     type: 'build',
-    code: '[&DQQZGggqHiYlD3kAvQAAALkAAAC8AAAAlwEAABYAAAAAAAAAAAAAAAAAAAACMwAjAARn9wAA3fYAAJv2AADo9gAA]',
+    code:
+      '[&DQQZGggqHiYlD3kAvQAAALkAAAC8AAAAlwEAABYAAAAAAAAAAAAAAAAAAAACMwAjAARn9wAA3fYAAJv2AADo9gAA]',
     meta: {
       profession: 4, // Revenant
 
@@ -160,7 +166,7 @@ const buildTestCases: Array<{ type: 'build'; code: string; legacyCode?: string; 
       aquaticPet2: 0,
 
       selectedWeapons: [51, 35],
-      selectedSkillVariants: [63335, 63197, 63131, 63208],
+      selectedSkillVariants: [63335, 63197, 63131, 63208]
     }
   }
 ]
@@ -250,9 +256,11 @@ describe('decoding', () => {
   })
 
   it('decodes legacy build chat codes correctly', () => {
-    buildTestCases.filter(({ legacyCode }) => legacyCode !== undefined).map((test) => {
-      expect(chatCodes.decode(test.legacyCode!)).toEqual({ type: test.type, ...test.meta })
-    })
+    buildTestCases
+      .filter(({ legacyCode }) => legacyCode !== undefined)
+      .map((test) => {
+        expect(chatCodes.decode(test.legacyCode!)).toEqual({ type: test.type, ...test.meta })
+      })
   })
 
   it('fails gracefully for a invalid format', () => {
