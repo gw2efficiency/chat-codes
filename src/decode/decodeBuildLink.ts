@@ -1,9 +1,7 @@
-import { CodeType, PROFESSION_FLAGS } from '../static'
+import { PROFESSION_FLAGS } from '../static'
 import { ChatCodeStruct } from '../ChatCodeStruct'
 
 export function decodeBuildLink(struct: ChatCodeStruct) {
-  const type = 'build' as CodeType
-
   const profession = struct.read1Byte()
 
   const specialization1 = struct.read1Byte()
@@ -65,7 +63,7 @@ export function decodeBuildLink(struct: ChatCodeStruct) {
   const selectedSkillVariants = legacyChatCode ? undefined : struct.readDynamicArray(4)
 
   return {
-    type,
+    type: 'build' as const,
 
     profession,
 
