@@ -48,6 +48,22 @@ export function decodeBuildLink(struct: ChatCodeStruct) {
     aquaticLegend2 = struct.read1Byte()
   }
 
+  // skip inactive legends
+  struct.read2Bytes();
+  struct.read2Bytes();
+  struct.read2Bytes();
+  struct.read2Bytes();
+  struct.read2Bytes();
+  struct.read2Bytes();
+
+  // check if we are at the end of the build code already,
+  // selectedWeapons and selectedSkillVariants were added with SotO,
+  // and old chat codes generated before SotO don't contain these yet.
+  const legacyChatCode = struct.atEnd();
+
+  const selectedWeapons = legacyChatCode ? undefined : struct.readDynamicArray(2);
+  const selectedSkillVariants = legacyChatCode ? undefined : struct.readDynamicArray(4);
+
   return {
     type,
 
@@ -80,6 +96,9 @@ export function decodeBuildLink(struct: ChatCodeStruct) {
     terrestrialLegend1,
     terrestrialLegend2,
     aquaticLegend1,
-    aquaticLegend2
+    aquaticLegend2,
+
+    selectedWeapons,
+    selectedSkillVariants,
   }
 }

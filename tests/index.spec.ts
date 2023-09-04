@@ -36,10 +36,11 @@ const itemTestCases: Array<{ type: 'item'; code: string; meta: ItemLinkMeta }> =
   }
 ]
 
-const buildTestCases: Array<{ type: 'build'; code: string; meta: BuildLinkMeta }> = [
+const buildTestCases: Array<{ type: 'build'; code: string; legacyCode?: string; meta: BuildLinkMeta }> = [
   {
     type: 'build',
-    code: '[&DQYfLSkaOCcXAXQANRfLAL4BjwBOARwBlwCWAAAAAAAAAAAAAAAAAAAAAAA=]',
+    code: '[&DQYfLSkaOCcXAXQANRfLAL4BjwBOARwBlwCWAAAAAAAAAAAAAAAAAAAAAAAAAA==]',
+    legacyCode: '[&DQYfLSkaOCcXAXQANRfLAL4BjwBOARwBlwCWAAAAAAAAAAAAAAAAAAAAAAA=]',
     meta: {
       profession: 6, // Elementalist
 
@@ -65,7 +66,8 @@ const buildTestCases: Array<{ type: 'build'; code: string; meta: BuildLinkMeta }
   },
   {
     type: 'build',
-    code: '[&DQQhNx4XNy4uFyUPvgC9ALoAvADpFpYBLhaXAQEECxMAAAAAAAAAAAAAAAA=]',
+    code: '[&DQQhNx4XNy4uFyUPvgC9ALoAvADpFpYBLhaXAQEECxMAAAAAAAAAAAAAAAAAAA==]',
+    legacyCode: '[&DQQhNx4XNy4uFyUPvgC9ALoAvADpFpYBLhaXAQEECxMAAAAAAAAAAAAAAAA=]',
     meta: {
       profession: 4, // Ranger
 
@@ -96,7 +98,8 @@ const buildTestCases: Array<{ type: 'build'; code: string; meta: BuildLinkMeta }
   },
   {
     type: 'build',
-    code: '[&DQkPFQMqND/cEdwRKxIrEgYSBhLUEdQRyhHKEQ4NDxAAAAAAAAAAAAAAAAA=]',
+    code: '[&DQkPFQMqND/cEdwRKxIrEgYSBhLUEdQRyhHKEQ4NDxAAAAAAAAAAAAAAAAAAAA==]',
+    legacyCode: '[&DQkPFQMqND/cEdwRKxIrEgYSBhLUEdQRyhHKEQ4NDxAAAAAAAAAAAAAAAAA=]',
     meta: {
       profession: 9, // Revenant
 
@@ -123,6 +126,41 @@ const buildTestCases: Array<{ type: 'build'; code: string; meta: BuildLinkMeta }
       terrestrialLegend2: 13, // Assassin
       aquaticLegend1: 15, // Demon
       aquaticLegend2: 16 // Dwarf
+    }
+  },
+  {
+    type: 'build',
+    code: '[&DQQZGggqHiYlD3kAvQAAALkAAAC8AAAAlwEAABYAAAAAAAAAAAAAAAAAAAACMwAjAARn9wAA3fYAAJv2AADo9gAA]',
+    meta: {
+      profession: 4, // Revenant
+
+      specialization1: 25, // Devastation
+      traitChoices1: [2, 2, 1],
+      specialization2: 8, // Invocation
+      traitChoices2: [2, 2, 2],
+      specialization3: 30, // Herald
+      traitChoices3: [2, 1, 2],
+
+      terrestrialHealSkill: 3877, // Enchanted Daggers
+      terrestrialUtilitySkill1: 189, // Phase Traversal
+      terrestrialUtilitySkill2: 185, // Riposting Shadows
+      terrestrialUtilitySkill3: 188, // Impossible Odds
+      terrestrialEliteSkill: 407, // Jade Winds
+
+      terrestrialPet1: 22,
+      terrestrialPet2: 0,
+
+      aquaticHealSkill: 121, // Soothing Stone
+      aquaticUtilitySkill1: 0, // Forced Engagement
+      aquaticUtilitySkill2: 0, // Inspiring Reinforcement
+      aquaticUtilitySkill3: 0, // Vengeful Hammers
+      aquaticEliteSkill: 0, // Rite of the Great Dwarf
+
+      aquaticPet1: 0,
+      aquaticPet2: 0,
+
+      selectedWeapons: [51, 35],
+      selectedSkillVariants: [63335, 63197, 63131, 63208],
     }
   }
 ]
@@ -208,6 +246,12 @@ describe('decoding', () => {
   it('decodes build chat codes correctly', () => {
     buildTestCases.map((test) => {
       expect(chatCodes.decode(test.code)).toEqual({ type: test.type, ...test.meta })
+    })
+  })
+
+  it('decodes legacy build chat codes correctly', () => {
+    buildTestCases.filter(({ legacyCode }) => legacyCode !== undefined).map((test) => {
+      expect(chatCodes.decode(test.legacyCode!)).toEqual({ type: test.type, ...test.meta })
     })
   })
 

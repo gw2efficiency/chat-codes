@@ -5,11 +5,11 @@ export type BuildLinkMeta = {
   profession: number
 
   specialization1: number
-  traitChoices1: Array<number>
+  traitChoices1: [number, number, number],
   specialization2: number
-  traitChoices2: Array<number>
+  traitChoices2: [number, number, number],
   specialization3: number
-  traitChoices3: Array<number>
+  traitChoices3: [number, number, number],
 
   terrestrialHealSkill: number
   terrestrialUtilitySkill1: number
@@ -32,6 +32,9 @@ export type BuildLinkMeta = {
   terrestrialLegend2?: number
   aquaticLegend1?: number
   aquaticLegend2?: number
+
+  selectedWeapons?: number[],
+  selectedSkillVariants?: number[],
 }
 
 export function encodeBuildLink(meta: BuildLinkMeta): string | false {
@@ -102,6 +105,9 @@ export function encodeBuildLink(meta: BuildLinkMeta): string | false {
     struct.write2Bytes(0x00)
     struct.write2Bytes(0x00)
   }
+
+  struct.writeDynamicArray(meta.selectedWeapons ?? [], 2);
+  struct.writeDynamicArray(meta.selectedSkillVariants ?? [], 4);
 
   return struct.encodeToChatCode()
 }

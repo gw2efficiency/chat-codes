@@ -29,9 +29,25 @@ export class ChatCodeStruct {
     this.bytes.push((value >> 0x10) & 0xff)
   }
 
-  writeTraitSelection([trait1, trait2, trait3]: Array<number>) {
+  write4Bytes(value: number) {
+    this.bytes.push((value >> 0x00) & 0xff)
+    this.bytes.push((value >> 0x08) & 0xff)
+    this.bytes.push((value >> 0x10) & 0xff)
+    this.bytes.push((value >> 0x18) & 0xff)
+  }
+
+  writeTraitSelection([trait1, trait2, trait3]: [number, number, number]) {
     const value = ((trait3 & 3) << 4) | ((trait2 & 3) << 2) | ((trait1 & 3) << 0)
     this.write1Byte(value)
+  }
+
+  writeDynamicArray(values: number[], bytesPerValue: 2 | 4) {
+    this.write1Byte(values.length);
+    for(const value of values) {
+      bytesPerValue === 2
+        ? this.write2Bytes(value)
+        : this.write4Bytes(value);
+    }
   }
 
   // -- DECODING --
@@ -60,11 +76,40 @@ export class ChatCodeStruct {
     )
   }
 
-  readTraitSelection(): Array<number> {
+  read4Bytes() {
+    return (
+      this.bytes[this.offset++] |
+      (this.bytes[this.offset++] << 8) |
+      (this.bytes[this.offset++] << 16) |
+      (this.bytes[this.offset++] << 24)
+    )
+  }
+
+  readTraitSelection(): [number, number, number] {
     return [
       this.bytes[this.offset] & 3,
       (this.bytes[this.offset] >> 2) & 3,
       (this.bytes[this.offset++] >> 4) & 3
     ]
+  }
+
+  readDynamicArray(bytesPerValue: 2 | 4): undefined | number[] {
+    const length = this.read1Byte();
+
+    if(length === 0) {
+      return undefined;
+    }
+
+    const values: number[] = [];
+
+    for(let i = 0; i < length; i++) {
+      values.push(bytesPerValue === 2 ? this.read2Bytes() : this.read4Bytes());
+    }
+
+    return values;
+  }
+
+  atEnd(): boolean {
+    return this.offset >= this.bytes.length;
   }
 }
