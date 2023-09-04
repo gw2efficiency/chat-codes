@@ -97,6 +97,6 @@ export function decodeBuildLink(struct: ChatCodeStruct) {
     aquaticLegend2,
 
     selectedWeapons,
-    selectedSkillVariants
+    selectedSkillVariants,
   }
 }

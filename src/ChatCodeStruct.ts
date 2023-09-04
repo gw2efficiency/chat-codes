@@ -87,7 +87,7 @@ export class ChatCodeStruct {
     return [
       this.bytes[this.offset] & 3,
       (this.bytes[this.offset] >> 2) & 3,
-      (this.bytes[this.offset++] >> 4) & 3
+      (this.bytes[this.offset++] >> 4) & 3,
     ]
   }
 

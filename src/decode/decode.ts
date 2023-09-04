@@ -18,7 +18,7 @@ export function decode(chatCode: string) {
   // The header describing the type of the chat code is encoded as the first byte
   const typeHeader = struct.read1Byte()
   const codeType = Object.keys(TYPE_HEADERS).find(
-    (key) => TYPE_HEADERS[key as CodeType] === typeHeader
+    (key) => TYPE_HEADERS[key as CodeType] === typeHeader,
   )
 
   switch (codeType) {
