@@ -4,8 +4,8 @@ import { ChatCodeStruct } from '../ChatCodeStruct'
 export type ItemLinkMeta = {
   id: number
   quantity?: number
-  skin?: string | number
-  upgrades?: Array<string | number>
+  skin?: number
+  upgrades?: Array<number>
 }
 
 export function encodeItemLink(meta: ItemLinkMeta) {
@@ -25,9 +25,9 @@ export function encodeItemLink(meta: ItemLinkMeta) {
   struct.write3Bytes(id)
 
   // Get the skin and upgrades as integer
-  const skin = parseInt(meta.skin as string, 10)
-  const upgrade1 = meta.upgrades && parseInt(meta.upgrades[0] as string, 10)
-  const upgrade2 = meta.upgrades && parseInt(meta.upgrades[1] as string, 10)
+  const skin = parseInt('' + meta.skin, 10)
+  const upgrade1 = meta.upgrades && parseInt('' + meta.upgrades[0], 10)
+  const upgrade2 = meta.upgrades && parseInt('' + meta.upgrades[1], 10)
 
   // Check which flags should be set
   const hasSkin = !isNaN(skin)
@@ -49,13 +49,13 @@ export function encodeItemLink(meta: ItemLinkMeta) {
 
   // Encode the first upgrade slot
   if (hasUpgrade1) {
-    struct.write3Bytes(upgrade1 as number)
+    struct.write3Bytes(upgrade1)
     struct.write1Byte(0x00)
   }
 
   // Encode the second upgrade slot
   if (hasUpgrade2) {
-    struct.write3Bytes(upgrade2 as number)
+    struct.write3Bytes(upgrade2)
     struct.write1Byte(0x00)
   }
 

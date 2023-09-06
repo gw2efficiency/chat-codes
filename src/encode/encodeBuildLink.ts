@@ -65,10 +65,10 @@ export function encodeBuildLink(meta: BuildLinkMeta): string | false {
 
   if (meta.profession === PROFESSION_FLAGS.ranger) {
     // Ranger
-    struct.write1Byte(meta.terrestrialPet1 as number)
-    struct.write1Byte(meta.terrestrialPet2 as number)
-    struct.write1Byte(meta.aquaticPet1 as number)
-    struct.write1Byte(meta.aquaticPet2 as number)
+    struct.write1Byte(meta.terrestrialPet1 ?? 0)
+    struct.write1Byte(meta.terrestrialPet2 ?? 0)
+    struct.write1Byte(meta.aquaticPet1 ?? 0)
+    struct.write1Byte(meta.aquaticPet2 ?? 0)
 
     // Zero out the bytes used for Revenant
     struct.write2Bytes(0x00)
@@ -79,10 +79,10 @@ export function encodeBuildLink(meta: BuildLinkMeta): string | false {
     struct.write2Bytes(0x00)
   } else if (meta.profession === PROFESSION_FLAGS.revenant) {
     // Revenant
-    struct.write1Byte(meta.terrestrialLegend1 as number)
-    struct.write1Byte(meta.terrestrialLegend2 as number)
-    struct.write1Byte(meta.aquaticLegend1 as number)
-    struct.write1Byte(meta.aquaticLegend2 as number)
+    struct.write1Byte(meta.terrestrialLegend1 ?? 0)
+    struct.write1Byte(meta.terrestrialLegend2 ?? 0)
+    struct.write1Byte(meta.aquaticLegend1 ?? 0)
+    struct.write1Byte(meta.aquaticLegend2 ?? 0)
 
     // TODO (Feature) We could also encode the inactive legends but not in the API
     //  so we just default to the default sort order by 0-ing them.
