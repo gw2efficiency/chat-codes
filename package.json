@@ -1,6 +1,6 @@
 {
   "name": "gw2e-chat-codes",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Encode and decode Guild Wars 2 chat codes",
   "main": "./build/src/index.js",
   "scripts": {
