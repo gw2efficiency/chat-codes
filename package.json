@@ -3,6 +3,9 @@
   "version": "1.4.1",
   "description": "Encode and decode Guild Wars 2 chat codes",
   "main": "./build/src/index.js",
+  "files": [
+    "build/src/"
+  ],
   "scripts": {
     "build": "rm -rf build/ && tsc",
     "test": "jest",
