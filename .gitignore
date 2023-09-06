@@ -9,7 +9,6 @@ build/
 
 # Dependencies
 node_modules/
-yarn.lock
 
 # Optional npm cache directory
 .npm/
